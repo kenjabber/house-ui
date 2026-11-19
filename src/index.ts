@@ -28,6 +28,18 @@ export {
   type ChipColumn,
   type ChipState,
 } from './components/TableFilter'
+export {
+  useTableSort,
+  SortHeader,
+  compareSortValues,
+  type SortDir,
+  type SortValue,
+  type TableSort,
+  type TableSortOptions,
+  type TableSortState,
+  type SortControl,
+  type SortHeaderProps,
+} from './components/TableSort'
 export { Modal, type ModalProps } from './components/Modal'
 export {
   Field,

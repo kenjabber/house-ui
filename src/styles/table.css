@@ -64,4 +64,33 @@
   .hu-table tr.hu-row--selected td {
     background: var(--accent-soft);
   }
+
+  /* SortHeader: the header's text as a button, with an arrow. */
+  .hu-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .hu-sort:hover {
+    color: var(--text-primary);
+  }
+  .hu-sort__icon {
+    font-size: var(--text-micro);
+    opacity: 0.35;
+  }
+  .hu-sort:hover .hu-sort__icon:not(.hu-sort__icon--active) {
+    opacity: 0.7;
+  }
+  .hu-sort__icon--active {
+    opacity: 1;
+    color: var(--accent-soft-fg);
+  }
 }

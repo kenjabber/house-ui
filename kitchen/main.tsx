@@ -37,6 +37,7 @@ import {
   PageHead,
   Select,
   Sidebar,
+  SortHeader,
   SidebarLink,
   Table,
   TableEmpty,
@@ -45,6 +46,7 @@ import {
   Textarea,
   chipValue,
   useTableFilter,
+  useTableSort,
   type ChipKind,
 } from '../src'
 
@@ -382,6 +384,9 @@ function Tables() {
       { name: 'Server', value: (h) => h.server },
     ],
   })
+  const sort = useTableSort(filter.visible, {
+    columns: { name: (h) => h.name, server: (h) => h.server, status: (h) => h.status, cpu: (h) => h.cpu },
+  })
   const [selected, setSelected] = useState('stocker')
   return (
     <div className="hu-stack">
@@ -391,14 +396,23 @@ function Tables() {
           <Table>
             <thead>
               <tr>
-                <th>App</th>
-                <th>Server</th>
-                <th>Status</th>
-                <th className="hu-num">CPU %</th>
+                <SortHeader sort={sort} column="name">
+                  App
+                </SortHeader>
+                <SortHeader sort={sort} column="server">
+                  Server
+                </SortHeader>
+                <SortHeader sort={sort} column="status">
+                  Status
+                </SortHeader>
+                <SortHeader sort={sort} column="cpu" className="hu-num">
+                  CPU %
+                </SortHeader>
+                <th>Note</th>
               </tr>
             </thead>
             <tbody>
-              {(filter.visible as Host[]).map((h) => (
+              {sort.sorted.map((h) => (
                 <tr
                   key={h.name}
                   className={`hu-row--clickable${h.name === selected ? ' hu-row--selected' : ''}`}
@@ -410,9 +424,10 @@ function Tables() {
                     <Chip kind={h.kind}>{h.status}</Chip>
                   </td>
                   <td className="hu-num">{h.cpu}</td>
+                  <td className="hu-muted">{h.name === 'stocker' ? 'pinned' : ''}</td>
                 </tr>
               ))}
-              {filter.visible.length === 0 && <TableEmpty colSpan={4}>No rows match.</TableEmpty>}
+              {filter.visible.length === 0 && <TableEmpty colSpan={5}>No rows match.</TableEmpty>}
             </tbody>
           </Table>
         </TableWrap>

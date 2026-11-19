@@ -337,6 +337,40 @@ Values are grouped regardless of case. `chipValue` drops a bracketed note, so
 rendered markdown), pass them to `useTableFilter` and show or hide them from
 `filter.visible`.
 
+### useTableSort, SortHeader
+
+Headers that sort on a click: ascending ▲, descending ▼, then the rows' own
+order again (↕ on a column not sorted), with `aria-sort` on the active `th`.
+`useTableSort(rows, options)` takes the rows (after any filter) and
+`columns`, the columns that sort by key, each giving a row's value (usually
+what its cell shows). Show `sorted`; each sortable header is a
+`<SortHeader sort column>` in place of its `th` (it takes `th` props, such
+as `className="hu-num"`); a column that does not sort keeps a plain `th`.
+
+```tsx
+const filter = useTableFilter(hosts, { text: (h) => `${h.name} ${h.server}` })
+const sort = useTableSort(filter.visible, {
+  columns: { name: (h) => h.name, cpu: (h) => h.cpu },
+  storageKey: 'appconfig.sort.hosts',
+})
+…
+<thead><tr>
+  <SortHeader sort={sort} column="name">Name</SortHeader>
+  <SortHeader sort={sort} column="cpu" className="hu-num">CPU %</SortHeader>
+  <th aria-label="Actions" />
+</tr></thead>
+<tbody>{sort.sorted.map((h) => …)}</tbody>
+```
+
+The order is natural: numbers, dates and booleans numerically, text without
+regard to case and with digit runs as numbers (ether2 before ether10,
+10.0.0.2 before 10.0.0.11); empty values last either way; equal values keep
+the rows' order. The sort is a view only. `initial` is the sort before any
+click; `storageKey` remembers it in this browser (a remembered column that no
+longer sorts is ignored). The state also has `sort`, `setSort`, `dirOf` and
+`cycle`; an app keeping its own sort state passes `SortHeader` any object
+with `dirOf` and `cycle`. `compareSortValues(a, b, dir)` is the comparison.
+
 ### Modal
 
 A dialog over the page: `title`, `onClose` (Escape, ×, backdrop), `children`,
