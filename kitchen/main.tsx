@@ -1,12 +1,13 @@
 // The kitchen sink (PLAN D-14): every component in every variant, light and
 // dark side by side. `npm run dev`, then http://localhost:5673. Every new
 // component gets a section here.
-import { StrictMode, useId, useRef, useState, type ReactNode } from 'react'
+import { Fragment, StrictMode, useId, useRef, useState, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '../src/styles/house-ui.css'
 import './kitchen.css'
 import {
   AppShell,
+  AuthPage,
   Banner,
   Button,
   ButtonLink,
@@ -40,6 +41,7 @@ import {
   SortHeader,
   SidebarLink,
   Table,
+  TableDetailRow,
   TableEmpty,
   TableFilter,
   TableWrap,
@@ -99,6 +101,8 @@ const HomeIcon = icon('M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z
 const ServerIcon = icon('M4 4h16v6H4zM4 14h16v6H4zM8 7h.01M8 17h.01')
 const GlobeIcon = icon('M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18')
 const PlusIcon = icon('M12 5v14M5 12h14')
+const FolderIcon = icon('M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z')
+const PageIcon = icon('M6 3h8l4 4v14H6zM14 3v4h4')
 
 // ── Sample data ──
 interface Host {
@@ -137,6 +141,33 @@ function Scenarios() {
       {['Base case', 'Early retirement', 'Sell the house', 'A very long scenario name that is cut off'].map((n, i) => (
         <SidebarItem key={n} active={picked === n} meta={i === 0 ? '🔒' : undefined} onClick={() => setPicked(n)}>
           {n}
+        </SidebarItem>
+      ))}
+    </SidebarSection>
+  )
+}
+
+/** kwicky's site tree: SidebarItems with an icon, indented by depth. */
+function SiteTree() {
+  const [picked, setPicked] = useState('projects/netconfig')
+  const rows: [string, string, number, boolean][] = [
+    ['home', 'Home', 0, false],
+    ['projects', 'Projects', 0, true],
+    ['projects/netconfig', 'NetConfig', 1, false],
+    ['projects/kwicky', 'kwicky', 1, false],
+    ['networks', 'Networks', 0, true],
+  ]
+  return (
+    <SidebarSection title="Pages">
+      {rows.map(([path, label, depth, folder]) => (
+        <SidebarItem
+          key={path}
+          icon={folder ? FolderIcon : PageIcon}
+          active={picked === path}
+          onClick={() => setPicked(path)}
+          style={{ paddingLeft: `calc(var(--space-2) + ${depth} * var(--space-4))` }}
+        >
+          {label}
         </SidebarItem>
       ))}
     </SidebarSection>
@@ -285,7 +316,12 @@ function DemoShell({
           <Sidebar
             brand={title}
             below={
-              withBelow ? <Scenarios /> : undefined
+              withBelow ? (
+                <>
+                  <Scenarios />
+                  <SiteTree />
+                </>
+              ) : undefined
             }
           >
             {[
@@ -514,6 +550,91 @@ function Tables() {
   )
 }
 
+/** kwicky Settings → Access: a click on a page's row opens its editor in a detail row under it. */
+function AccessTable() {
+  const rows = [
+    ['/projects', 'admins, family', 'Folder'],
+    ['/networks', 'admins', 'Folder'],
+    ['/ranchero/notes/heater', 'everyone', 'Page'],
+  ]
+  const [open, setOpen] = useState<string | null>('/networks')
+  return (
+    <TableWrap>
+      <Table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Readers</th>
+            <th>Kind</th>
+            <th aria-label="Actions" />
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([path, readers, kind]) => (
+            <Fragment key={path}>
+              <tr
+                className={`hu-row--clickable${open === path ? ' hu-row--selected' : ''}`}
+                onClick={() => setOpen(open === path ? null : path)}
+              >
+                <td className="hu-mono">{path}</td>
+                <td>{readers}</td>
+                <td>{kind}</td>
+                <td className="hu-num hu-muted">{open === path ? '▾' : '▸'}</td>
+              </tr>
+              {open === path && (
+                <TableDetailRow colSpan={4}>
+                  <div className="hu-stack">
+                    <Field label="Readers" help="Admins always read everything.">
+                      <Input defaultValue={readers} />
+                    </Field>
+                    <label className="hu-row">
+                      <Checkbox defaultChecked /> Restrict this path
+                    </label>
+                    <div className="hu-row">
+                      <Button sm variant="primary">Save</Button>
+                      <Button sm onClick={() => setOpen(null)}>Cancel</Button>
+                    </div>
+                  </div>
+                </TableDetailRow>
+              )}
+            </Fragment>
+          ))}
+        </tbody>
+      </Table>
+    </TableWrap>
+  )
+}
+
+/** The sign-in page, with an error, and the page for a browser with no passkeys. */
+function AuthPages() {
+  return (
+    <div className="ks-auth">
+      <AuthPage
+        title="Sign in to kwicky"
+        subtitle="Use your passkey to sign in. Username is optional: leave it blank to let the browser pick a passkey."
+        error="The passkey was not accepted."
+        onSubmit={(e) => e.preventDefault()}
+        footer={
+          <>
+            New here? <a href="#auth">Register your passkey</a>.
+          </>
+        }
+      >
+        <Field label="Username (optional)">
+          <Input autoComplete="username webauthn" />
+        </Field>
+        <Button type="submit" variant="primary">
+          Sign in with passkey
+        </Button>
+      </AuthPage>
+      <AuthPage
+        title="Sign in"
+        subtitle="This browser does not support passkeys. Use a current version of Safari, Chrome, Edge, or Firefox."
+      />
+    </div>
+  )
+}
+
 function Forms() {
   const [name, setName] = useState('')
   return (
@@ -730,6 +851,7 @@ function KitchenSink() {
     ['tabs', 'Tabs and PanelTabs'],
     ['diff', 'DiffView'],
     ['feedback', 'Banner, Facts, ConfirmButton, InfoButton'],
+    ['auth', 'AuthPage'],
   ]
   return (
     <div className="ks">
@@ -907,6 +1029,8 @@ function KitchenSink() {
 
       <Section id="tables" title="Table and TableFilter">
         <Pair>{() => <Tables />}</Pair>
+        <p className="hu-hint">TableDetailRow: a click on a row opens its editor right under it (kwicky Settings → Access).</p>
+        <Pair>{() => <AccessTable />}</Pair>
       </Section>
 
       <Section id="forms" title="Form pieces">
@@ -929,6 +1053,10 @@ function KitchenSink() {
 
       <Section id="feedback" title="Banner, Facts, ConfirmButton, InfoButton">
         <Pair>{() => <FeedbackDemo />}</Pair>
+      </Section>
+
+      <Section id="auth" title="AuthPage">
+        <Pair>{() => <AuthPages />}</Pair>
       </Section>
     </div>
   )

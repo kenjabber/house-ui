@@ -172,7 +172,10 @@ their setters.
 **The area below the links** holds lists on the dark sidebar:
 `SidebarSection` (`title`, `actions`) with `SidebarAction`s (small icon
 buttons, each with an `aria-label`; `danger` for a delete) and `SidebarItem`
-rows (`active`, `meta` at the right, `as` like SidebarLink). A row's click
+rows (`active`, `icon` before the label, `meta` at the right, `as` like
+SidebarLink). An `icon` is an inline SVG drawn 1rem square in the row's
+colour (`stroke="currentColor"`), a little dimmed, so it reads on the active
+row too: kwicky's folder and page icons. A row's click
 also closes the compact overlay. The links keep their height (up to 60% of
 the sidebar) and this area scrolls.
 
@@ -348,8 +351,30 @@ wrap them in `<div className="hu-chip-row">`.
 `Page fill` takes the page's remaining height and scrolls both ways, see
 Page above); `Table` the table, with `stickyHead` to keep the header in view. Write `thead`/`tbody`
 yourself. Cell classes: `hu-num` (right-aligned figures), `hu-nowrap`. Row
-classes: `hu-row--clickable`, `hu-row--selected`. `TableEmpty colSpan={n}` is
-the "nothing here" row.
+classes: `hu-row--clickable`, `hu-row--selected`, `hu-row--detail` (below).
+`TableEmpty colSpan={n}` is the "nothing here" row.
+
+**A row's editor under it: `TableDetailRow`.** A click on a row opens its
+editor (or its details) in a row right under it: kwicky Settings → Access.
+`<TableDetailRow colSpan={n}>` is that row, one cell across the table, with
+the panel surface, no hover highlight and a default cursor. Mark the row
+above `hu-row--selected`: there is no line between the two, and an accent
+line under the detail row closes the pair.
+
+```tsx
+{rows.map((r) => (
+  <Fragment key={r.path}>
+    <tr className={cx('hu-row--clickable', open === r.path && 'hu-row--selected')} onClick={() => toggle(r.path)}>
+      <td>{r.path}</td>…
+    </tr>
+    {open === r.path && (
+      <TableDetailRow colSpan={4}>
+        <AccessEditor path={r.path} />
+      </TableDetailRow>
+    )}
+  </Fragment>
+))}
+```
 
 ### TableFilter, useTableFilter, chipValue
 
@@ -554,6 +579,32 @@ text), `label` (its accessible name, default "diff").
 
 ```tsx
 {preview.diff ? <DiffView diff={preview.diff} /> : <p className="hu-muted">The applied file matches.</p>}
+```
+
+### AuthPage
+
+The passkey sign-in and register page, outside the AppShell: a card at most
+360px wide, centred on the body surface, clear of the notch. `title` (the
+h1), `subtitle` (a muted line), `error` (a `bad` Banner above the form,
+nothing when empty), `onSubmit` (the children become a `<form>` that calls
+it; without it they are a plain column, for a browser with no passkeys),
+`footer` (a muted, centred line: the link to register or sign in), and the
+fields and submit button as children, in a column with a gap. A `Button`
+straight in the form is full width.
+
+```tsx
+<AuthPage
+  title={`Sign in to ${siteName}`}
+  subtitle="Use your passkey to sign in. Username is optional."
+  error={error}
+  onSubmit={handleLogin}
+  footer={<>New here? <Link to="/register">Register your passkey</Link>.</>}
+>
+  <Field label="Username (optional)">
+    <Input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username webauthn" />
+  </Field>
+  <Button type="submit" variant="primary" disabled={busy}>{busy ? 'Signing in…' : 'Sign in with passkey'}</Button>
+</AuthPage>
 ```
 
 ### Icons

@@ -121,6 +121,8 @@ export function SidebarAction({ className, danger, ...rest }: ComponentPropsWith
 }
 
 interface SidebarItemOwnProps {
+  /** An inline SVG before the label (a folder, a page), about 1rem, in the row's colour, slightly dimmed. */
+  icon?: ReactNode
   /** The selected row. */
   active?: boolean
   /** Something at the right of the row (a lock, a count). */
@@ -140,6 +142,7 @@ export type SidebarItemProps<C extends ElementType = 'button'> = SidebarItemOwnP
  */
 export function SidebarItem<C extends ElementType = 'button'>({
   as,
+  icon,
   active,
   meta,
   children,
@@ -160,6 +163,11 @@ export function SidebarItem<C extends ElementType = 'button'>({
         setNavOpen(false)
       }}
     >
+      {icon !== undefined && icon !== null && (
+        <span className="hu-sidebar-item__icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <span className="hu-sidebar-item__label">{children}</span>
       {meta !== undefined && meta !== null && <span className="hu-sidebar-item__meta">{meta}</span>}
     </Comp>

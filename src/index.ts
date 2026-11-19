@@ -17,7 +17,15 @@ export { PageHead, Page, type PageHeadProps, type PageProps } from './components
 export { Card, type CardProps } from './components/Card'
 export { Button, ButtonLink, type ButtonProps, type ButtonLinkProps, type ButtonVariant } from './components/Button'
 export { Chip, type ChipProps, type ChipKind } from './components/Chip'
-export { Table, TableWrap, TableEmpty, type TableProps, type TableWrapProps } from './components/Table'
+export {
+  Table,
+  TableWrap,
+  TableEmpty,
+  TableDetailRow,
+  type TableProps,
+  type TableWrapProps,
+  type TableDetailRowProps,
+} from './components/Table'
 export {
   TableFilter,
   useTableFilter,
@@ -63,6 +71,7 @@ export {
   type TabPanelProps,
   type PanelTabsProps,
 } from './components/Tabs'
+export { AuthPage, type AuthPageProps } from './components/AuthPage'
 export { DiffView, type DiffViewProps } from './components/DiffView'
 export { InfoButton, type InfoButtonProps } from './components/InfoButton'
 export {

@@ -9,7 +9,7 @@ export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
 /**
  * A data table. Write `thead`/`tbody` yourself. Cell classes: `hu-num`
  * (right-aligned figures), `hu-nowrap`. Row classes: `hu-row--clickable`,
- * `hu-row--selected`.
+ * `hu-row--selected`, `hu-row--detail` (see TableDetailRow).
  */
 export function Table({ stickyHead, className, ...rest }: TableProps) {
   return <table className={cx('hu-table', stickyHead && 'hu-table--sticky', className)} {...rest} />
@@ -32,6 +32,26 @@ export function TableWrap({ fill, className, ...rest }: TableWrapProps) {
 export function TableEmpty({ colSpan, children = 'Nothing here yet.' }: { colSpan: number; children?: ReactNode }) {
   return (
     <tr className="hu-table__empty">
+      <td colSpan={colSpan}>{children}</td>
+    </tr>
+  )
+}
+
+export interface TableDetailRowProps extends HTMLAttributes<HTMLTableRowElement> {
+  /** The number of columns, so the one cell spans the row. */
+  colSpan: number
+  /** The selected row's editor or details. */
+  children?: ReactNode
+}
+
+/**
+ * A row right under a selected row (`hu-row--selected`) that holds that
+ * row's editor: the panel surface, no hover highlight, joined to the row
+ * above. Renders `<tr className="hu-row--detail"><td colSpan>`.
+ */
+export function TableDetailRow({ colSpan, className, children, ...rest }: TableDetailRowProps) {
+  return (
+    <tr className={cx('hu-row--detail', className)} {...rest}>
       <td colSpan={colSpan}>{children}</td>
     </tr>
   )

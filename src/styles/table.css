@@ -37,7 +37,9 @@
   .hu-table tbody tr:last-child td {
     border-bottom: none;
   }
-  .hu-table tbody tr:hover td {
+  /* Child combinators, so a hover does not tint the cells of anything
+     nested in a row (an editor in a detail row). */
+  .hu-table > tbody > tr:hover > td {
     background: var(--surface-hover);
   }
   .hu-table--sticky thead th {
@@ -63,6 +65,23 @@
   }
   .hu-table tr.hu-row--selected td {
     background: var(--accent-soft);
+  }
+  /* A detail row (TableDetailRow): right under a selected row, holding its
+     editor. The panel surface, no hover, a default cursor; no line between
+     it and the selected row above, and an accent line under it, so the two
+     read as one block. */
+  .hu-table > tbody > tr.hu-row--detail > td,
+  .hu-table > tbody > tr.hu-row--detail:hover > td {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    background: var(--surface-panel);
+    border-bottom: 1px solid var(--accent-soft-border);
+    cursor: default;
+  }
+  .hu-table > tbody > tr.hu-row--selected:has(+ tr.hu-row--detail) > td {
+    border-bottom-color: transparent;
+  }
+  .hu-table > tbody > tr.hu-row--detail:last-child > td {
+    border-bottom: none;
   }
 
   /* SortHeader: the header's text as a button, with an arrow. */

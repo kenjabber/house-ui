@@ -1,0 +1,46 @@
+/* AuthPage: the passkey sign-in and register page, outside the AppShell. A
+   card at most 360px wide, centred on the body surface; the padding keeps
+   it clear of the notch (safe-area insets). */
+
+@layer house-ui {
+  .hu-auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* --hu-auth-height: the kitchen sink sets it to show the page in a frame. */
+    min-height: var(--hu-auth-height, var(--app-height));
+    padding: var(--space-6);
+    padding-top: max(var(--space-6), var(--safe-top));
+    padding-right: max(var(--space-6), var(--safe-right));
+    padding-bottom: max(var(--space-6), var(--safe-bottom));
+    padding-left: max(var(--space-6), var(--safe-left));
+    background: var(--surface-body);
+  }
+  .hu-auth__card {
+    width: 100%;
+    max-width: 360px;
+    padding: var(--space-5);
+  }
+  .hu-auth__card > .hu-auth__subtitle {
+    margin-top: var(--space-2);
+    color: var(--text-muted);
+    font-size: var(--text-base);
+  }
+  .hu-auth__card > .hu-auth__form,
+  .hu-auth__card > .hu-auth__footer {
+    margin-top: var(--space-4);
+  }
+  .hu-auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .hu-auth__form > .hu-btn {
+    width: 100%;
+  }
+  .hu-auth__footer {
+    color: var(--text-muted);
+    font-size: var(--text-base);
+    text-align: center;
+  }
+}

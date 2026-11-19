@@ -106,4 +106,28 @@ describe('SidebarSection and SidebarItem', () => {
     expect(picked).toBe('Early')
     expect(container.querySelector('.hu-shell')).not.toHaveClass('hu-shell--nav-open')
   })
+
+  it('shows an icon before the label, hidden from screen readers', () => {
+    render(
+      <AppShell
+        sidebar={
+          <Sidebar
+            brand="kwicky"
+            below={
+              <SidebarSection title="Pages">
+                <SidebarItem icon={<svg data-testid="folder" />}>projects</SidebarItem>
+                <SidebarItem>home</SidebarItem>
+              </SidebarSection>
+            }
+          />
+        }
+      />,
+    )
+    const projects = screen.getByRole('button', { name: 'projects' })
+    const icon = projects.querySelector('.hu-sidebar-item__icon')!
+    expect(icon).toHaveAttribute('aria-hidden', 'true')
+    expect(icon).toContainElement(screen.getByTestId('folder'))
+    expect(icon.nextElementSibling).toHaveClass('hu-sidebar-item__label')
+    expect(screen.getByRole('button', { name: 'home' }).querySelector('.hu-sidebar-item__icon')).toBeNull()
+  })
 })
