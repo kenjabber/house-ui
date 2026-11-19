@@ -36,6 +36,53 @@
   .hu-tab:focus-visible {
     outline-offset: -2px;
   }
+  .hu-tab__sub {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .hu-tab--active .hu-tab__sub {
+    color: var(--text-secondary);
+  }
+
+  /* PanelTabs: the strip sits on its panel, and the selected tab joins it. */
+  .hu-panel-tabs {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .hu-tabs--panel {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -1px;
+    padding-left: var(--space-3);
+    border-bottom: none;
+  }
+  .hu-tabs--panel .hu-tab {
+    margin-bottom: 0;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    background: var(--surface-sunken);
+    font-weight: 650;
+  }
+  .hu-tabs--panel .hu-tab--active,
+  .hu-tabs--panel .hu-tab--active:hover:not(:disabled) {
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    border-color: var(--border-subtle);
+    border-bottom-color: var(--surface-raised);
+  }
+  .hu-tab-panel--joined {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+    padding: var(--space-4);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
 
   @media (pointer: coarse) {
     .hu-tab {

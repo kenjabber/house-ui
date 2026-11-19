@@ -42,7 +42,15 @@ export {
   type SelectProps,
 } from './components/Form'
 export { UserMenu, MenuItem, type UserMenuProps, type MenuItemProps } from './components/Menu'
-export { Tabs, TabPanel, type Tab, type TabsProps } from './components/Tabs'
+export {
+  Tabs,
+  TabPanel,
+  PanelTabs,
+  type Tab,
+  type TabsProps,
+  type TabPanelProps,
+  type PanelTabsProps,
+} from './components/Tabs'
 export { InfoButton, type InfoButtonProps } from './components/InfoButton'
 export {
   Banner,

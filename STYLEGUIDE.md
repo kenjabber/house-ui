@@ -354,10 +354,11 @@ beside buttons) takes `inline`: as wide as its content, or an Input's
 <FormActions><Button type="submit" variant="primary">Save</Button></FormActions>
 ```
 
-### Tabs, TabPanel
+### Tabs, TabPanel, PanelTabs
 
 A row of tabs, the selected one underlined: the settings modals' tabs.
-`tabs` (`key`, `label`, `disabled`), `value`, `onChange`, `label` (the
+`tabs` (`key`, `label`, `sub`, `disabled`; `sub` is quieter text after the
+label, a server name or a count), `value`, `onChange`, `label` (the
 list's accessible name). Arrow keys, Home and End move between tabs. Render
 the selected tab's content yourself; with `idPrefix`, wrap it in
 `<TabPanel idPrefix tabKey>` and the two are wired for screen readers.
@@ -366,6 +367,21 @@ the selected tab's content yourself; with `idPrefix`, wrap it in
 <Tabs label="Settings" idPrefix="settings" value={tab} onChange={setTab}
   tabs={[{ key: 'users', label: 'Users' }, { key: 'tokens', label: 'API tokens' }]} />
 <TabPanel idPrefix="settings" tabKey={tab}>{tab === 'users' ? <Users /> : <Tokens />}</TabPanel>
+```
+
+`PanelTabs` is tabs that own a panel: the strip sits on a bordered panel and
+the selected tab joins it, so every control inside visibly belongs to that
+tab (AppConfig's Edges, NetConfig). Use it when the tabs switch between
+things (edges, devices), not settings pages. It takes the same props as
+`Tabs`, the selected tab's content as children (in a column with a gap),
+and `panelLabel` to name the panel itself. The tabs and panel are wired
+for screen readers without an `idPrefix`.
+
+```tsx
+<PanelTabs label="Edges" value={edgeId} onChange={select} panelLabel={`${edge.name} edge`}
+  tabs={edges.map((e) => ({ key: e.id, label: e.name, sub: `· ${e.server_name}` }))}>
+  <EdgePanel key={edgeId} edge={edge} />
+</PanelTabs>
 ```
 
 ### Banner, Loading

@@ -18,6 +18,7 @@ import {
   SidebarAction,
   SidebarItem,
   SidebarSection,
+  PanelTabs,
   TabPanel,
   Tabs,
   UserMenu,
@@ -452,6 +453,29 @@ function TabsDemo() {
   )
 }
 
+function PanelTabsDemo() {
+  const [edge, setEdge] = useState('main')
+  return (
+    <PanelTabs
+      label="Edges"
+      value={edge}
+      onChange={setEdge}
+      tabs={[
+        { key: 'main', label: 'main', sub: '· srv1a' },
+        { key: 'admin', label: 'admin', sub: '· srv1b' },
+        { key: 'later', label: 'spare', disabled: true },
+      ]}
+    >
+      <h2>{edge} edge</h2>
+      <p>Everything in the panel belongs to the {edge} tab. Arrow keys, Home and End move between tabs.</p>
+      <div className="hu-row">
+        <Button sm>Preview</Button>
+        <Button sm variant="primary">Apply</Button>
+      </div>
+    </PanelTabs>
+  )
+}
+
 function FeedbackDemo() {
   return (
     <div className="hu-stack">
@@ -515,7 +539,7 @@ function KitchenSink() {
     ['tables', 'Table and TableFilter'],
     ['forms', 'Form pieces'],
     ['modal', 'Modal'],
-    ['tabs', 'Tabs'],
+    ['tabs', 'Tabs and PanelTabs'],
     ['feedback', 'Banner, Facts, ConfirmButton, InfoButton'],
   ]
   return (
@@ -658,8 +682,10 @@ function KitchenSink() {
         <Pair>{() => <Modals />}</Pair>
       </Section>
 
-      <Section id="tabs" title="Tabs">
+      <Section id="tabs" title="Tabs and PanelTabs">
         <Pair>{() => <TabsDemo />}</Pair>
+        <p className="hu-hint">PanelTabs: tabs that own a panel (AppConfig's Edges, NetConfig).</p>
+        <Pair>{() => <PanelTabsDemo />}</Pair>
       </Section>
 
       <Section id="feedback" title="Banner, Facts, ConfirmButton, InfoButton">

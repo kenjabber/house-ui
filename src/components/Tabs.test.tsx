@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { useState } from 'react'
-import { TabPanel, Tabs } from './Tabs'
+import { PanelTabs, TabPanel, Tabs } from './Tabs'
 
 function Harness() {
   const [tab, setTab] = useState('users')
@@ -49,5 +49,54 @@ describe('Tabs', () => {
     expect(screen.getByRole('tab', { name: 'API tokens' })).toHaveAttribute('aria-selected', 'true')
     fireEvent.keyDown(list, { key: 'Home' })
     expect(screen.getByRole('tab', { name: 'Users' })).toHaveAttribute('aria-selected', 'true')
+  })
+})
+
+function PanelHarness() {
+  const [edge, setEdge] = useState('main')
+  return (
+    <PanelTabs
+      label="Edges"
+      value={edge}
+      onChange={setEdge}
+      panelLabel={`${edge} edge`}
+      tabs={[
+        { key: 'main', label: 'main', sub: '· srv1a' },
+        { key: 'admin', label: 'admin', sub: '· srv1b' },
+      ]}
+    >
+      <p>the {edge} panel</p>
+    </PanelTabs>
+  )
+}
+
+describe('PanelTabs', () => {
+  it('joins the selected tab to a panel wired to it, with sub-text in the name', () => {
+    render(<PanelHarness />)
+    const list = screen.getByRole('tablist', { name: 'Edges' })
+    expect(list).toHaveClass('hu-tabs', 'hu-tabs--panel')
+    const main = screen.getByRole('tab', { name: 'main · srv1a' })
+    expect(main).toHaveAttribute('aria-selected', 'true')
+    expect(main.querySelector('.hu-tab__sub')).toHaveTextContent('· srv1a')
+    const panel = screen.getByRole('tabpanel', { name: 'main edge' })
+    expect(panel).toHaveClass('hu-tab-panel', 'hu-tab-panel--joined')
+    expect(main).toHaveAttribute('aria-controls', panel.id)
+    expect(panel).toHaveTextContent('the main panel')
+
+    main.focus()
+    fireEvent.keyDown(main, { key: 'ArrowRight' })
+    const admin = screen.getByRole('tab', { name: /admin · srv1b/ })
+    expect(admin).toHaveAttribute('aria-selected', 'true')
+    expect(admin).toHaveFocus()
+    expect(screen.getByRole('tabpanel')).toHaveTextContent('the admin panel')
+  })
+
+  it('labels the panel by its tab when no panelLabel is given', () => {
+    render(
+      <PanelTabs label="Edges" value="main" onChange={() => {}} tabs={[{ key: 'main', label: 'main' }]}>
+        x
+      </PanelTabs>,
+    )
+    expect(screen.getByRole('tabpanel', { name: 'main' })).toHaveAttribute('aria-labelledby', screen.getByRole('tab').id)
   })
 })
