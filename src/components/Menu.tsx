@@ -14,7 +14,10 @@ export interface UserMenuProps {
 
 /**
  * The signed-in user's button in the header and its drop-down menu. It
- * closes on a choice, Escape, or a click elsewhere.
+ * closes on a choice, Escape, or a click elsewhere. At phone width (an
+ * AppShell 600px wide or less) the button shows only the person icon (the
+ * name stays its accessible name) and the open menu shows the name and
+ * badge at its top.
  */
 export function UserMenu({ name, badge, children, className }: UserMenuProps) {
   const [open, setOpen] = useState(false)
@@ -74,6 +77,12 @@ export function UserMenu({ name, badge, children, className }: UserMenuProps) {
             items[next]?.focus()
           }}
         >
+          {/* Shown at phone width only, where the button is just the icon. The
+              button already carries the name for screen readers. */}
+          <div className="hu-menu__head" aria-hidden="true">
+            <span className="hu-menu__head-name">{name}</span>
+            {badge && <span className="hu-chip hu-chip--info hu-user-menu__badge">{badge}</span>}
+          </div>
           {children}
         </div>
       )}

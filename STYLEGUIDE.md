@@ -209,6 +209,14 @@ headerRight={
 closes on a choice, Escape or a click elsewhere; the arrow keys move
 between items.
 
+**At phone width** (the shell 600px wide or less) the header gives way to
+its title: the title keeps at least 5rem and a text title ends in an
+ellipsis; the `UserMenu` button is its person icon alone (the name stays its
+accessible name) and the open menu shows the name and badge at its top; the
+right side may shrink. Keep `headerRight` to the gear and the `UserMenu` on
+a phone: move anything else (a search box) into the page or the sidebar
+there, or make it able to shrink.
+
 ### Page, PageHead
 
 `Page` centres the content at `--page-max-width` with even gaps. `PageHead`

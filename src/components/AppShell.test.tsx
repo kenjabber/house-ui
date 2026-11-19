@@ -41,6 +41,11 @@ describe('AppShell', () => {
     expect(domains).not.toHaveAttribute('type')
   })
 
+  it('puts a text title in a span, so a long one ends in an ellipsis', () => {
+    const { container } = render(<Shell />)
+    expect(container.querySelector('.hu-main__title > .hu-main__title-text')).toHaveTextContent('Hosts')
+  })
+
   it('collapses from the toggle', () => {
     const changes: boolean[] = []
     const { container } = render(<Shell onCollapsedChange={(c) => changes.push(c)} />)

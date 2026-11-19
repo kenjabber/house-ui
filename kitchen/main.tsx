@@ -286,6 +286,9 @@ function DemoShell({
   withBelow,
   list,
   card,
+  user = 'Ken',
+  badge,
+  initial,
 }: {
   title: string
   defaultCollapsed?: boolean
@@ -294,8 +297,12 @@ function DemoShell({
   list?: boolean
   /** Show a fill card page (Page fill, Card fill, .hu-fill). */
   card?: boolean
+  /** The signed-in user's name and badge, and the first section (a long one for the phone demo). */
+  user?: string
+  badge?: string
+  initial?: string
 }) {
-  const [section, setSection] = useState('Hosts')
+  const [section, setSection] = useState(initial ?? 'Hosts')
   return (
     <div className="ks-frame">
       <AppShell
@@ -306,7 +313,7 @@ function DemoShell({
             <Button variant="ghost" icon aria-label="Settings">
               <GearIcon />
             </Button>
-            <UserMenu name="Ken" badge={withBelow ? undefined : 'admin'}>
+            <UserMenu name={user} badge={badge ?? (withBelow ? undefined : 'admin')}>
               <MenuItem>Profile</MenuItem>
               <MenuItem danger>Sign out</MenuItem>
             </UserMenu>
@@ -887,6 +894,17 @@ function KitchenSink() {
           {() => (
             <div className="ks-narrow">
               <DemoShell title="kwicky" withBelow />
+            </div>
+          )}
+        </Pair>
+        <p className="hu-hint">
+          Phone width (600px and below): the UserMenu is its icon alone, with the name and badge at the top of the open
+          menu, and the title keeps its room.
+        </p>
+        <Pair>
+          {() => (
+            <div className="ks-narrow">
+              <DemoShell title="kwicky" user="bootstrap" badge="admin" initial="Settings and access for every page" />
             </div>
           )}
         </Pair>

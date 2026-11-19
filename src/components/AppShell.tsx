@@ -79,7 +79,14 @@ export function AppShell({
               >
                 <MenuIcon />
               </button>
-              <div className="hu-main__title">{title}</div>
+              <div className="hu-main__title">
+                {/* Text in a span, so a long title ends in an ellipsis (the title is a flex row). */}
+                {typeof title === 'string' || typeof title === 'number' ? (
+                  <span className="hu-main__title-text">{title}</span>
+                ) : (
+                  title
+                )}
+              </div>
               {headerRight && <div className="hu-main__right">{headerRight}</div>}
             </header>
             <main className="hu-main__content">{children}</main>

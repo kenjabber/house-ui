@@ -51,6 +51,26 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-popover);
   }
+  /* The name and badge at the top of the open menu, for phone width
+     (below), where the button shows only the icon. */
+  .hu-menu__head {
+    display: none;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 16rem;
+    margin-bottom: var(--space-1);
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .hu-menu__head-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .hu-menu__item {
     display: block;
     width: 100%;
@@ -83,6 +103,34 @@
     }
     .hu-menu__item {
       min-height: var(--touch-target-min);
+    }
+  }
+
+  /* Phone width (the AppShell 600px wide or less): the button is the person
+     icon alone, so the header's title keeps its room. The name and badge
+     stay in the button, visually hidden, as its accessible name, and show
+     at the top of the open menu. */
+  @container hu-shell (max-width: 600px) {
+    .hu-user-menu__button {
+      justify-content: center;
+      min-width: 2rem;
+    }
+    .hu-user-menu__button .hu-user-menu__name,
+    .hu-user-menu__button .hu-user-menu__badge {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    .hu-menu__head {
+      display: flex;
+    }
+    @media (pointer: coarse) {
+      .hu-user-menu__button {
+        min-width: var(--touch-target-min);
+      }
     }
   }
 }
