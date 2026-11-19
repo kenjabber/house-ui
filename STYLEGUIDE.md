@@ -230,6 +230,20 @@ as children, `actions` (a right-aligned row under the body).
 </Card>
 ```
 
+The body's blocks (a Banner, a table, a paragraph) get an even gap, and an
+`h3` straight in a card is a sub-heading, with more space above than below,
+for a card of several parts. Elsewhere (a tab panel, a modal), give the
+heading `className="hu-subhead"`.
+
+```tsx
+<Card title="Containers">
+  <ErrorBanner error={error} />
+  <TableWrap>…</TableWrap>
+  <h3>Timers</h3>
+  <TableWrap>…</TableWrap>
+</Card>
+```
+
 ### Button
 
 `variant`: `primary` (one per view, the main action), `secondary` (default),
@@ -411,7 +425,8 @@ bring their own icons for everything else.
 `house-ui.css` also sets element defaults (body, headings, links, `code`,
 `pre`, focus ring, scrollbars) and a few helper classes: `hu-muted`,
 `hu-hint`, `hu-mono`, `hu-row` (a wrapping row with a gap), `hu-stack` (a
-column with a gap), `hu-visually-hidden`.
+column with a gap), `hu-subhead` (a sub-heading outside a Card),
+`hu-visually-hidden`.
 
 ## house-ui-check
 

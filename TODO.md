@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 9 | [Card: sub-headings and space between body blocks](#9-card-sub-headings-and-space-between-body-blocks) | ready to start |
 | 10 | [Facts: skip empty items](#10-facts-skip-empty-items) | ready to start |
 | 11 | [Tabs that own a panel](#11-tabs-that-own-a-panel) | idea |
 | 12 | [DiffView](#12-diffview) | idea |
@@ -15,18 +14,6 @@ Next number: **13**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 9. Card: sub-headings and space between body blocks
-
-A Card's body children sit flush against each other (a `Banner` directly
-on top of a `TableWrap`), and an `h3` inside a card gets no margin from the
-base styles, so a second table's heading ("Compose projects", "Timers")
-touches the table above. AppConfig adds a `.sub-head` class (TODO 28);
-every app with multi-part cards will.
-
-**Done when:** a Card's body blocks have an even gap (or a documented
-`stack` option) and there is a sub-heading style (an h3 in a card, or a
-`CardSection` with a title), on the kitchen sink.
 
 ## 10. Facts: skip empty items
 

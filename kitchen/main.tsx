@@ -606,6 +606,32 @@ function KitchenSink() {
               >
                 <p className="hu-hint">The head's Select and Input stay their own width.</p>
               </Card>
+              <Card title="Containers (blocks and sub-headings)">
+                <Banner kind="warn">2 containers are restarting.</Banner>
+                <TableWrap>
+                  <Table>
+                    <thead>
+                      <tr><th>Name</th><th>State</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>kwicky-backend</td><td><Chip kind="ok">running</Chip></td></tr>
+                      <tr><td>stocker-web</td><td><Chip kind="warn">restarting</Chip></td></tr>
+                    </tbody>
+                  </Table>
+                </TableWrap>
+                <h3>Timers</h3>
+                <TableWrap>
+                  <Table>
+                    <thead>
+                      <tr><th>Timer</th><th>Next</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>appconfig-backup@kwicky</td><td>in 41 min</td></tr>
+                    </tbody>
+                  </Table>
+                </TableWrap>
+                <p className="hu-hint">Body blocks get an even gap; an h3 in a card is a sub-heading, more space above than below.</p>
+              </Card>
             </div>
           )}
         </Pair>

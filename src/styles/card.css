@@ -47,7 +47,6 @@
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-bottom: var(--space-3);
   }
   .hu-card__title {
     flex: 1 1 auto;
@@ -59,7 +58,28 @@
     align-items: center;
     gap: var(--space-2);
   }
-  .hu-card__actions {
+  /* An even gap between a card's blocks (a Banner over a table, a second
+     table). Margins, not flex, so text and inline elements in a card stay
+     on one line; inline elements ignore them. */
+  .hu-card > * + * {
+    margin-top: var(--space-3);
+  }
+  /* A sub-heading: an h3 straight in a card, or .hu-subhead anywhere (a tab
+     panel, a modal). More space above it than below. */
+  .hu-card > h3,
+  .hu-subhead {
+    font-size: var(--text-md);
+    font-weight: 650;
+  }
+  .hu-card > * + h3,
+  .hu-subhead:not(:first-child) {
+    margin-top: var(--space-5);
+  }
+  .hu-card > h3 + *,
+  .hu-subhead + * {
+    margin-top: var(--space-2);
+  }
+  .hu-card > .hu-card__actions {
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
