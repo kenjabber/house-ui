@@ -359,7 +359,9 @@ inside, and focus returns on close. Its height follows the dynamic viewport.
 `Field` wraps one control with its `label`, `help` and `error`: the label
 points at the control, help and error describe it, and an error marks it
 invalid. `required` adds the marker; `wide` spans every column of a
-`FormGrid`. A `Checkbox` gets its label beside it. `FormGrid` fits as many
+`FormGrid`. A `Checkbox` gets its label beside it. A `Checkbox` outside a
+Field (a list row, `<label className="hu-row"><Checkbox /> Text</label>`)
+stays where it is written, before its text. `FormGrid` fits as many
 220px columns as there is room for; `FormActions` is the button row under a
 form. The controls are the native elements with house-ui's look: 44px tall
 and 16px text on touch screens.

@@ -462,6 +462,15 @@ function Forms() {
           <Checkbox defaultChecked />
         </Field>
       </FormGrid>
+      <h3>A Checkbox outside a Field</h3>
+      <div className="hu-stack" style={{ gap: 'var(--space-1)' }}>
+        <label className="hu-row">
+          <Checkbox defaultChecked /> In a row, the box stays before its text
+        </label>
+        <label className="hu-row">
+          <Checkbox /> ip firewall filter <span className="hu-muted">Drop invalid</span>
+        </label>
+      </div>
     </Card>
   )
 }

@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 14 | [Checkbox order only inside a Field](#14-checkbox-order-only-inside-a-field) | ready to start |
 | 15 | [A check Field's long label wraps beside the box](#15-a-check-fields-long-label-wraps-beside-the-box) | ready to start |
 | 16 | [Click-to-sort table headers](#16-click-to-sort-table-headers) | ready to start |
 
@@ -14,15 +13,6 @@ Next number: **17**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 14. Checkbox order only inside a Field
-
-`.hu-checkbox { order: 1 }` in `src/styles/form.css` is meant for a check
-`Field`, but it also moves the box after its text in any other flex row
-(NetConfig's `.rc-option` and `.ms-option` undo it with `order: -1`).
-
-**Done when:** the ordering applies only inside `.hu-field--check`, and a
-Checkbox in a plain `hu-row` sits before its text on the kitchen sink.
 
 ## 15. A check Field's long label wraps beside the box
 

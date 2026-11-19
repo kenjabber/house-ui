@@ -52,6 +52,11 @@
     color: var(--text-primary);
     font-size: var(--text-md);
   }
+  /* Only here does the box come before the label (Field renders the label
+     first); a Checkbox in any other row keeps its place. */
+  .hu-field--check > .hu-checkbox {
+    order: 1;
+  }
   .hu-field--check .hu-field__help,
   .hu-field--check .hu-field__error {
     order: 3;
@@ -107,7 +112,6 @@
     color: var(--text-muted);
   }
   .hu-checkbox {
-    order: 1;
     width: 1rem;
     height: 1rem;
     accent-color: var(--accent);
