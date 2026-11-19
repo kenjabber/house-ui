@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | [Public or private repo: how apps fetch the pinned release](#1-public-or-private-repo-how-apps-fetch-the-pinned-release) | needs Ken (default: public repo, release asset URL) |
 | 2 | [Build house-ui v1.0.0](#2-build-house-ui-v100) | ready to start |
 | 3 | [The rule in Ken's ~/.claude/CLAUDE.md](#3-the-rule-in-kens-claudeclaudemd) | needs Ken (his file; the text is below) |
 | 4 | [File a retrofit item in each app's backlog](#4-file-a-retrofit-item-in-each-apps-backlog) | after 2 |
@@ -16,28 +15,6 @@ Next number: **6**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 1. Public or private repo: how apps fetch the pinned release
-
-Every app's frontend is built inside Docker on the server
-(`deploy/docker/frontend.Dockerfile`: `node:22-alpine`, `npm ci`). That image
-has no git and no SSH key, so a `git+ssh://` dependency on a **private**
-`kenjabber/house-ui` cannot be fetched there.
-
-- **Public repo (the default).** house-ui holds only styling and generic
-  components — nothing about Ken's network or data. Apps pin the release's
-  `npm pack` asset (PLAN.md D-4) over HTTPS, which `npm ci` fetches with no
-  git and no credentials:
-  `"house-ui": "https://github.com/kenjabber/house-ui/releases/download/v1.0.0/house-ui-1.0.0.tgz"`.
-- **Private repo.** The Dockerfiles get a read-only GitHub token from
-  Vaultwarden as a BuildKit secret and fetch the asset with it (a private
-  repo's release assets need the API's asset URL and an
-  `Accept: application/octet-stream` header, not the plain download URL, so
-  `npm ci` cannot fetch it directly: a download step runs before it); every
-  app's deploy changes, and the token needs rotating.
-
-**Done when:** Ken has chosen, the choice is recorded as a decision in
-PLAN.md §2, and this item is removed.
 
 ## 2. Build house-ui v1.0.0
 
@@ -52,13 +29,15 @@ kwicky's `App.css` each have two `.app-shell` rules: an old flex one from
 stocker near the top (NetConfig line 23, kwicky line 17) and the grid one
 later (NetConfig line 2640, kwicky line 592). Take the grid one. Follow
 D-19 (`@layer house-ui`) and D-20 (package shape) from the first commit.
-Publishing the release waits on item 1's answer; everything before it does
-not.
+The repo is private until the release (D-21): just before uploading
+`v1.0.0`, check that no file or commit holds a secret, hostname or address,
+ask Ken to confirm, then
+`gh repo edit kenjabber/house-ui --visibility public --accept-visibility-change-consequences`.
 
 **Done when:** the kitchen sink shows every D-9 component in light and dark
 side by side (D-7's `data-theme`), `house-ui-check` passes its own fixture
 tests and, run against each of the five apps, lists their current literals,
-and `v1.0.0` is tagged with its `.tgz` on the GitHub Release.
+the repo is public, and `v1.0.0` is tagged with its `.tgz` on the GitHub Release.
 
 ## 3. The rule in Ken's ~/.claude/CLAUDE.md
 

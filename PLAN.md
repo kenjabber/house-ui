@@ -54,6 +54,15 @@ Implementation starts at the build order (§7).
   has an `exports` map (`.` for the components, `./house-ui.css`),
   `"sideEffects": ["*.css"]`, `bin` for `house-ui-check`, and a `files` list
   of `dist/` and `bin/` only (the kitchen sink is not shipped).
+- **D-21** **The GitHub repo is public from v1.0.0.** Apps are built in
+  Docker on the servers, where `npm ci` downloads the pinned release file;
+  a private repo's file needs a token in every build (a vault item, an
+  AppConfig build-secret feature, a download step in each Dockerfile, and
+  renewal). house-ui holds only styling and generic components, nothing
+  about the network or its data, so it is public and the download needs no
+  credentials. Until `v1.0.0` nothing downloads it, so it stays private; the
+  switch is made just before the first release is uploaded. Never put a
+  secret, hostname or address in this repo.
 
 ## 3. What is in it
 
@@ -166,7 +175,8 @@ Implementation starts at the build order (§7).
 2. Components of D-9, each added to the kitchen sink (D-14) as it lands.
 3. `house-ui-check` (D-17) with its fixture tests, then run against the
    current apps (it should flag what §1 found).
-4. `STYLEGUIDE.md` (D-13), `release.sh` (D-4), release `v1.0.0`.
+4. `STYLEGUIDE.md` (D-13), `release.sh` (D-4), make the repo public
+   (D-21), release `v1.0.0`.
 5. Retrofit, one app per item in that app's backlog, in this order:
    NestEgg (AppConfig's tokens already), AppConfig, kwicky, NetConfig,
    stocker. Each retrofit: pin house-ui, add the `resolve.dedupe` of D-5,
