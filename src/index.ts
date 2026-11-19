@@ -51,6 +51,7 @@ export {
   type TabPanelProps,
   type PanelTabsProps,
 } from './components/Tabs'
+export { DiffView, type DiffViewProps } from './components/DiffView'
 export { InfoButton, type InfoButtonProps } from './components/InfoButton'
 export {
   Banner,

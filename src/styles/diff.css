@@ -1,0 +1,27 @@
+/* DiffView: a unified diff. The body is at least as wide as the box and as
+   wide as its longest line, so line colours span the scroll width. */
+@layer house-ui {
+  .hu-diff {
+    max-height: 30rem;
+    line-height: 1.45;
+    white-space: pre;
+  }
+  .hu-diff__body {
+    display: inline-block;
+    min-width: 100%;
+  }
+  .hu-diff__line {
+    display: block;
+  }
+  .hu-diff__line--add {
+    background: var(--diff-add-bg);
+    color: var(--diff-add-fg);
+  }
+  .hu-diff__line--del {
+    background: var(--diff-del-bg);
+    color: var(--diff-del-fg);
+  }
+  .hu-diff__line--hunk {
+    color: var(--diff-hunk-fg);
+  }
+}

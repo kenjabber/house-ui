@@ -10,6 +10,7 @@ import {
   Banner,
   Button,
   ConfirmButton,
+  DiffView,
   Facts,
   GearIcon,
   InfoButton,
@@ -476,6 +477,20 @@ function PanelTabsDemo() {
   )
 }
 
+const DIFF = `--- applied/Caddyfile
++++ generated/Caddyfile
+@@ -4,7 +4,7 @@
+ kwicky.kenjabber.ai {
+-  reverse_proxy kwicky-backend:8000
++  reverse_proxy kwicky-backend:8080
+ }
+@@ -20,3 +20,6 @@ stocker.kenjabber.ai {
+ }
++nestegg.kenjabber.ai {
++  reverse_proxy nestegg-web:3000 # a long line to show the colour spanning the scroll width when the box scrolls sideways
++}
+`
+
 function FeedbackDemo() {
   return (
     <div className="hu-stack">
@@ -540,6 +555,7 @@ function KitchenSink() {
     ['forms', 'Form pieces'],
     ['modal', 'Modal'],
     ['tabs', 'Tabs and PanelTabs'],
+    ['diff', 'DiffView'],
     ['feedback', 'Banner, Facts, ConfirmButton, InfoButton'],
   ]
   return (
@@ -686,6 +702,10 @@ function KitchenSink() {
         <Pair>{() => <TabsDemo />}</Pair>
         <p className="hu-hint">PanelTabs: tabs that own a panel (AppConfig's Edges, NetConfig).</p>
         <Pair>{() => <PanelTabsDemo />}</Pair>
+      </Section>
+
+      <Section id="diff" title="DiffView">
+        <Pair>{() => <DiffView diff={DIFF} />}</Pair>
       </Section>
 
       <Section id="feedback" title="Banner, Facts, ConfirmButton, InfoButton">

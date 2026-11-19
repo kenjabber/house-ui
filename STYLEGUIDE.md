@@ -432,6 +432,17 @@ closes it.
 <h2 className="hu-row">Edges <InfoButton title="Edges">An edge is a Caddy that routes names to apps.</InfoButton></h2>
 ```
 
+### DiffView
+
+A unified diff (`diff -u`, `git diff`) with `+` lines green, `-` lines red
+and `@@` hunk lines blue, on the `--diff-*` tokens. Lines span the scroll
+width, so a long line's colour does not stop at the box's edge. `diff` (the
+text), `label` (its accessible name, default "diff").
+
+```tsx
+{preview.diff ? <DiffView diff={preview.diff} /> : <p className="hu-muted">The applied file matches.</p>}
+```
+
 ### Icons
 
 `GearIcon`, `PersonIcon`, `MenuIcon`, `PlusIcon`: the few house-ui's own
