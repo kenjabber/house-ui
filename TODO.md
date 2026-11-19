@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 7 | [Button: a ghost-danger variant](#7-button-a-ghost-danger-variant) | ready to start |
 | 8 | [Inline controls: Input and Select as wide as their content](#8-inline-controls-input-and-select-as-wide-as-their-content) | ready to start |
 | 9 | [Card: sub-headings and space between body blocks](#9-card-sub-headings-and-space-between-body-blocks) | ready to start |
 | 10 | [Facts: skip empty items](#10-facts-skip-empty-items) | ready to start |
@@ -17,19 +16,6 @@ Next number: **13**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 7. Button: a ghost-danger variant
-
-`ConfirmButton danger` draws a secondary button with red text
-(`hu-btn--ghost-danger`), but `Button` has no variant for it, so a plain
-destructive button in a table row (AppConfig's Revoke token, Delete
-passkey) has to borrow the class: `className="hu-btn--ghost-danger"`
-(AppConfig TODO 28). `variant="danger"` is a solid red button, too loud for
-a row.
-
-**Done when:** `Button variant="ghost-danger"` (or `danger` plus a flag)
-exists, is on the kitchen sink and in STYLEGUIDE.md, and ConfirmButton uses
-it.
 
 ## 8. Inline controls: Input and Select as wide as their content
 

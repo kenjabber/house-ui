@@ -81,9 +81,10 @@ export function ConfirmButton({
   return (
     <>
       <Button
+        variant={danger ? 'ghost-danger' : 'secondary'}
         sm={sm}
         disabled={disabled}
-        className={cx(danger && 'hu-btn--ghost-danger', className)}
+        className={className}
         onClick={() => setOpen(true)}
       >
         {label}

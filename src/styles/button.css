@@ -55,8 +55,12 @@
     background: var(--surface-hover);
   }
 
+  /* A secondary button with red text: a destructive action in a row. */
   .hu-btn--ghost-danger {
     color: var(--danger);
+  }
+  .hu-btn--ghost-danger:hover:not(:disabled) {
+    border-color: var(--danger);
   }
 
   .hu-btn--link {

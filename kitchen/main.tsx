@@ -244,12 +244,12 @@ function TypeScale() {
 }
 
 function Buttons() {
-  const variants = ['primary', 'secondary', 'danger', 'ghost', 'link'] as const
+  const variants = ['primary', 'secondary', 'danger', 'ghost-danger', 'ghost', 'link'] as const
   return (
     <div className="hu-stack">
       {variants.map((v) => (
         <div key={v} className="hu-row">
-          <span className="ks-label" style={{ width: '5.5rem' }}>
+          <span className="ks-label" style={{ width: '6.5rem' }}>
             {v}
           </span>
           <Button variant={v}>Save</Button>

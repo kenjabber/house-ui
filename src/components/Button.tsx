@@ -1,10 +1,13 @@
 import type { ButtonHTMLAttributes } from 'react'
 import { cx } from '../cx'
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'link'
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost-danger' | 'ghost' | 'link'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Default `secondary`. */
+  /**
+   * Default `secondary`. `danger` is solid red (a dialog's confirm);
+   * `ghost-danger` is a secondary button with red text (Delete in a table row).
+   */
   variant?: ButtonVariant
   /** The small size. */
   sm?: boolean

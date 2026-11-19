@@ -22,6 +22,11 @@ describe('Button', () => {
     expect(b).toBeDisabled()
     expect(b).toHaveAttribute('type', 'submit')
   })
+
+  it('has a ghost-danger variant: secondary with red text', () => {
+    render(<Button variant="ghost-danger" sm>Revoke</Button>)
+    expect(screen.getByRole('button', { name: 'Revoke' }).className).toBe('hu-btn hu-btn--ghost-danger hu-btn--sm')
+  })
 })
 
 describe('Chip', () => {

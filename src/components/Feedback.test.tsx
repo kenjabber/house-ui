@@ -34,6 +34,7 @@ describe('ConfirmButton', () => {
   it('asks first and runs on yes only', () => {
     let ran = 0
     render(<ConfirmButton label="Delete" title="Delete kwicky?" message="Gone for good." danger onConfirm={() => ran++} />)
+    expect(screen.getByRole('button', { name: 'Delete' })).toHaveClass('hu-btn--ghost-danger')
     fireEvent.click(screen.getByRole('button', { name: 'Delete' }))
     expect(screen.getByRole('dialog', { name: 'Delete kwicky?' })).toHaveTextContent('Gone for good.')
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))

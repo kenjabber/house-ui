@@ -233,7 +233,9 @@ as children, `actions` (a right-aligned row under the body).
 ### Button
 
 `variant`: `primary` (one per view, the main action), `secondary` (default),
-`danger` (destroys something), `ghost` (toolbar, header icons), `link` (inline,
+`danger` (destroys something: solid red, a dialog's confirm), `ghost-danger`
+(a secondary button with red text: Delete or Revoke in a table row, where
+solid red is too loud), `ghost` (toolbar, header icons), `link` (inline,
 looks like a link). `sm` for tables and card heads. `icon` for a square
 icon-only button, which needs an `aria-label`. `type` defaults to `"button"`;
 pass `type="submit"` in a form.
@@ -357,7 +359,8 @@ export const ErrorBanner = ({ error }: { error: unknown }) => (error ? <Banner k
 ### ConfirmButton
 
 A button that asks first, in a Modal, and runs `onConfirm` on yes: `label`,
-`title`, `message`, `confirmLabel`, `danger` (red text, red confirm), `sm`,
+`title`, `message`, `confirmLabel`, `danger` (a `ghost-danger` button, a red
+confirm), `sm`,
 `disabled`.
 
 ```tsx
