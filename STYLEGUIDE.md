@@ -313,6 +313,18 @@ invalid. `required` adds the marker; `wide` spans every column of a
 form. The controls are the native elements with house-ui's look: 44px tall
 and 16px text on touch screens.
 
+`Input` and `Select` fill their field. One in a row of other controls (a
+filter in a `PageHead`'s actions or a Card's `headActions`, a short Input
+beside buttons) takes `inline`: as wide as its content, or an Input's
+`size`.
+
+```tsx
+<PageHead title="Runs" actions={
+  <Select inline aria-label="kind" value={kind} onChange={…}>…</Select>
+} />
+<Input inline size={6} aria-label="tail" value={tail} onChange={…} />
+```
+
 ```tsx
 <FormGrid>
   <Field label="Name" help="Letters, digits and dashes." required>
@@ -335,18 +347,6 @@ A row of tabs, the selected one underlined: the settings modals' tabs.
 list's accessible name). Arrow keys, Home and End move between tabs. Render
 the selected tab's content yourself; with `idPrefix`, wrap it in
 `<TabPanel idPrefix tabKey>` and the two are wired for screen readers.
-
-`Input` and `Select` fill their field. One in a row of other controls (a
-filter in a `PageHead`'s actions or a Card's `headActions`, a short Input
-beside buttons) takes `inline`: as wide as its content, or an Input's
-`size`.
-
-```tsx
-<PageHead title="Runs" actions={
-  <Select inline aria-label="kind" value={kind} onChange={…}>…</Select>
-} />
-<Input inline size={6} aria-label="tail" value={tail} onChange={…} />
-```
 
 ```tsx
 <Tabs label="Settings" idPrefix="settings" value={tab} onChange={setTab}
