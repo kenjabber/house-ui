@@ -40,8 +40,11 @@ describe('tokens.css', () => {
   })
 
   it('wraps everything in @layer house-ui', () => {
-    for (const file of ['tokens', 'base', 'button', 'chip', 'card', 'shell', 'table', 'table-filter', 'modal', 'form']) {
-      const text = readFileSync(fileURLToPath(new URL(`../src/styles/${file}.css`, import.meta.url)), 'utf8')
+    const index = readFileSync(fileURLToPath(new URL('../src/styles/house-ui.css', import.meta.url)), 'utf8')
+    const files = [...index.matchAll(/^@import "\.\/([\w-]+\.css)";$/gm)].map((m) => m[1])
+    expect(files.length).toBeGreaterThanOrEqual(13)
+    for (const file of files) {
+      const text = readFileSync(fileURLToPath(new URL(`../src/styles/${file}`, import.meta.url)), 'utf8')
       const code = text.replace(/\/\*[\s\S]*?\*\//g, '').trim()
       expect(code.startsWith('@layer house-ui {'), file).toBe(true)
       expect(code.endsWith('}'), file).toBe(true)

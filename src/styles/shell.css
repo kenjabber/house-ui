@@ -79,15 +79,17 @@
     flex-direction: column;
     gap: 2px;
     padding: var(--space-2);
-    flex: 0 1 auto;
-    min-height: 0;
+    /* The links keep their height (up to 60% of the sidebar) and the area
+       below them scrolls. */
+    flex: 0 0 auto;
+    max-height: 60%;
     overflow-y: auto;
   }
   .hu-sidebar__below {
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
-    padding: var(--space-2) var(--space-3) calc(var(--space-3) + var(--safe-bottom));
+    padding: var(--space-1) var(--space-2) calc(var(--space-3) + var(--safe-bottom));
     border-top: 1px solid var(--border-sidebar);
     color: var(--text-on-dark-muted);
     font-size: var(--text-sm);
@@ -155,6 +157,110 @@
     color: var(--text-on-dark);
     font-size: var(--text-micro);
     font-weight: 600;
+  }
+
+  /* ── The below area: sections of rows (SidebarSection, SidebarItem) ── */
+  .hu-sidebar-section + .hu-sidebar-section {
+    margin-top: var(--space-3);
+  }
+  .hu-sidebar-section__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-1) var(--space-1);
+  }
+  .hu-sidebar-section__title {
+    color: var(--text-on-dark-muted);
+    font-size: var(--text-micro);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .hu-sidebar-section__actions {
+    display: flex;
+    gap: var(--space-1);
+  }
+  .hu-sidebar-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 1px solid var(--border-sidebar);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-on-dark-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .hu-sidebar-action:hover:not(:disabled) {
+    background: var(--surface-sidebar-hover);
+    color: var(--text-on-dark);
+  }
+  .hu-sidebar-action--danger:hover:not(:disabled) {
+    border-color: var(--danger);
+    color: var(--chip-bad-fg);
+  }
+  .hu-sidebar-action:disabled {
+    opacity: var(--disabled-opacity);
+    cursor: not-allowed;
+  }
+  .hu-sidebar-action svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .hu-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 2rem;
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--text-on-dark-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .hu-sidebar-item:hover:not(:disabled) {
+    background: var(--surface-sidebar-hover);
+    color: var(--text-on-dark);
+    text-decoration: none;
+  }
+  .hu-sidebar-item--active,
+  .hu-sidebar-item--active:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .hu-sidebar-item__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .hu-sidebar-item__meta {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    opacity: 0.85;
+  }
+  @media (pointer: coarse) {
+    .hu-sidebar-item {
+      min-height: var(--touch-target-min);
+    }
+    .hu-sidebar-action {
+      width: 2rem;
+      height: 2rem;
+    }
   }
 
   /* Collapsed: icons only. */

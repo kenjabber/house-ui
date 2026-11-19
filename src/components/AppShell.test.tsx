@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { AppShell } from './AppShell'
-import { Sidebar, SidebarLink } from './Sidebar'
+import { Sidebar, SidebarAction, SidebarItem, SidebarLink, SidebarSection } from './Sidebar'
 
 function Shell(props: { onCollapsedChange?: (c: boolean) => void; onPick?: () => void }) {
   return (
@@ -73,5 +73,37 @@ describe('AppShell', () => {
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(shell).not.toHaveClass('hu-shell--nav-open')
     expect(menu).toHaveAttribute('aria-controls', container.querySelector('.hu-sidebar')!.id)
+  })
+})
+
+describe('SidebarSection and SidebarItem', () => {
+  it('lists rows under a titled section, marks the active one, and closes the overlay on a pick', () => {
+    let picked = ''
+    const { container } = render(
+      <AppShell
+        sidebar={
+          <Sidebar
+            brand="stocker"
+            below={
+              <SidebarSection title="Scenarios" actions={<SidebarAction aria-label="Add scenario">+</SidebarAction>}>
+                <SidebarItem active meta="🔒" onClick={() => (picked = 'Base')}>
+                  Base case
+                </SidebarItem>
+                <SidebarItem onClick={() => (picked = 'Early')}>Early retirement</SidebarItem>
+              </SidebarSection>
+            }
+          />
+        }
+      />,
+    )
+    expect(screen.getByRole('heading', { name: 'Scenarios' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add scenario' })).toHaveClass('hu-sidebar-action')
+    const base = screen.getByRole('button', { name: /Base case/ })
+    expect(base).toHaveAttribute('aria-current', 'true')
+    expect(base).toHaveTextContent('🔒')
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Early retirement' }))
+    expect(picked).toBe('Early')
+    expect(container.querySelector('.hu-shell')).not.toHaveClass('hu-shell--nav-open')
   })
 })

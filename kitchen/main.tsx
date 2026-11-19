@@ -1,13 +1,27 @@
 // The kitchen sink (PLAN D-14): every component in every variant, light and
 // dark side by side. `npm run dev`, then http://localhost:5673. Every new
 // component gets a section here.
-import { StrictMode, useRef, useState, type ReactNode } from 'react'
+import { StrictMode, useId, useRef, useState, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '../src/styles/house-ui.css'
 import './kitchen.css'
 import {
   AppShell,
+  Banner,
   Button,
+  ConfirmButton,
+  Facts,
+  GearIcon,
+  InfoButton,
+  Loading,
+  MenuItem,
+  SidebarAction,
+  SidebarItem,
+  SidebarSection,
+  TabPanel,
+  Tabs,
+  UserMenu,
+  PlusIcon as HuPlusIcon,
   Card,
   Checkbox,
   Chip,
@@ -79,7 +93,6 @@ const icon = (d: string) => (
 const HomeIcon = icon('M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z')
 const ServerIcon = icon('M4 4h16v6H4zM4 14h16v6H4zM8 7h.01M8 17h.01')
 const GlobeIcon = icon('M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18')
-const GearIcon = icon('M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z')
 const PlusIcon = icon('M12 5v14M5 12h14')
 
 // ── Sample data ──
@@ -100,6 +113,31 @@ const HOSTS: Host[] = [
   { name: 'backup', server: 'srv-c', status: 'Unknown', kind: 'neutral', cpu: 0 },
 ]
 
+function Scenarios() {
+  const [picked, setPicked] = useState('Base case')
+  return (
+    <SidebarSection
+      title="Scenarios"
+      actions={
+        <>
+          <SidebarAction aria-label="Add scenario">
+            <HuPlusIcon />
+          </SidebarAction>
+          <SidebarAction aria-label="Delete scenario" danger>
+            −
+          </SidebarAction>
+        </>
+      }
+    >
+      {['Base case', 'Early retirement', 'Sell the house', 'A very long scenario name that is cut off'].map((n, i) => (
+        <SidebarItem key={n} active={picked === n} meta={i === 0 ? '🔒' : undefined} onClick={() => setPicked(n)}>
+          {n}
+        </SidebarItem>
+      ))}
+    </SidebarSection>
+  )
+}
+
 function DemoShell({ title, defaultCollapsed, withBelow }: { title: string; defaultCollapsed?: boolean; withBelow?: boolean }) {
   const [section, setSection] = useState('Hosts')
   return (
@@ -110,25 +148,19 @@ function DemoShell({ title, defaultCollapsed, withBelow }: { title: string; defa
         headerRight={
           <>
             <Button variant="ghost" icon aria-label="Settings">
-              {GearIcon}
+              <GearIcon />
             </Button>
-            <span className="ks-user" aria-label="Signed in as Ken">
-              K
-            </span>
+            <UserMenu name="Ken" badge={withBelow ? undefined : 'admin'}>
+              <MenuItem>Profile</MenuItem>
+              <MenuItem danger>Sign out</MenuItem>
+            </UserMenu>
           </>
         }
         sidebar={
           <Sidebar
             brand={title}
             below={
-              withBelow ? (
-                <div className="ks-scenarios">
-                  <strong>Scenarios</strong>
-                  <span>Base case</span>
-                  <span>Early retirement</span>
-                  <span>Sell the house</span>
-                </div>
-              ) : undefined
+              withBelow ? <Scenarios /> : undefined
             }
           >
             {[
@@ -136,7 +168,7 @@ function DemoShell({ title, defaultCollapsed, withBelow }: { title: string; defa
               { label: 'Hosts', icon: ServerIcon, badge: 7 },
               { label: 'Domains', icon: GlobeIcon },
               { label: 'Exports', badge: 2 },
-              { label: 'Settings', icon: GearIcon },
+              { label: 'Settings', icon: <GearIcon /> },
             ].map((l) => (
               <SidebarLink
                 key={l.label}
@@ -396,6 +428,59 @@ function Modals() {
   )
 }
 
+function TabsDemo() {
+  const [tab, setTab] = useState('users')
+  const id = useId()
+  return (
+    <Card title="Settings (as in a SettingsModal)">
+      <Tabs
+        label="Settings"
+        idPrefix={`tabs${id}`}
+        value={tab}
+        onChange={setTab}
+        tabs={[
+          { key: 'users', label: 'Users' },
+          { key: 'groups', label: 'Groups' },
+          { key: 'tokens', label: 'API tokens' },
+          { key: 'later', label: 'Disabled', disabled: true },
+        ]}
+      />
+      <TabPanel idPrefix={`tabs${id}`} tabKey={tab}>
+        <p>The {tab} tab's content. Arrow keys, Home and End move between tabs.</p>
+      </TabPanel>
+    </Card>
+  )
+}
+
+function FeedbackDemo() {
+  return (
+    <div className="hu-stack">
+      <Banner kind="ok">Deployed kwicky at a1b2c3d.</Banner>
+      <Banner kind="info">The NAS is off; backups wait for it.</Banner>
+      <Banner kind="warn" title="2 warnings" items={['FINNHUB_API_KEY is not in the vault.', 'The edge has not been applied.']} />
+      <Banner kind="bad">Could not reach srv-b: connection refused.</Banner>
+      <Banner kind="neutral">A neutral note.</Banner>
+      <Loading what="Loading servers" />
+      <Facts
+        items={[
+          ['App', 'kwicky'],
+          ['Commit', <span className="hu-mono">a1b2c3d4e5f6</span>],
+          ['Server', 'srv-a'],
+          ['Last backup', null],
+        ]}
+      />
+      <Facts mono items={[['Path', '/opt/kwicky/src'], ['Image', 'kwicky-backend:ac-a1b2c3d4e5f6']]} />
+      <div className="hu-row">
+        <ConfirmButton label="Delete" title="Delete kwicky?" message="This removes the app's containers. Its data volume is kept." danger onConfirm={() => {}} />
+        <ConfirmButton label="Restart" title="Restart stocker?" message="The app is down for a few seconds." sm onConfirm={() => {}} />
+      </div>
+      <h3 className="hu-row">
+        Edges <InfoButton title="Edges">An edge is a Caddy that routes names to apps. Escape or a click elsewhere closes this.</InfoButton>
+      </h3>
+    </div>
+  )
+}
+
 function Base() {
   return (
     <div className="hu-stack">
@@ -429,6 +514,8 @@ function KitchenSink() {
     ['tables', 'Table and TableFilter'],
     ['forms', 'Form pieces'],
     ['modal', 'Modal'],
+    ['tabs', 'Tabs'],
+    ['feedback', 'Banner, Facts, ConfirmButton, InfoButton'],
   ]
   return (
     <div className="ks">
@@ -455,7 +542,9 @@ function KitchenSink() {
       <Section id="shell" title="AppShell">
         <p className="hu-hint">Desktop (wider than 980px): the sidebar's « collapses it to icons.</p>
         <Stacked>{() => <DemoShell title="NetConfig" />}</Stacked>
-        <p className="hu-hint">Collapsed, with content below the links (hidden while collapsed).</p>
+        <p className="hu-hint">A SidebarSection of SidebarItems below the links (stocker's scenarios, kwicky's site tree).</p>
+        <Stacked>{() => <DemoShell title="stocker" withBelow />}</Stacked>
+        <p className="hu-hint">Collapsed: icons only; the area below the links is hidden.</p>
         <Stacked>{() => <DemoShell title="stocker" defaultCollapsed withBelow />}</Stacked>
         <p className="hu-hint">Compact (980px and below): the header's menu button opens the sidebar as an overlay.</p>
         <Pair>
@@ -514,6 +603,14 @@ function KitchenSink() {
 
       <Section id="modal" title="Modal">
         <Pair>{() => <Modals />}</Pair>
+      </Section>
+
+      <Section id="tabs" title="Tabs">
+        <Pair>{() => <TabsDemo />}</Pair>
+      </Section>
+
+      <Section id="feedback" title="Banner, Facts, ConfirmButton, InfoButton">
+        <Pair>{() => <FeedbackDemo />}</Pair>
       </Section>
     </div>
   )

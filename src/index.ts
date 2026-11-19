@@ -1,7 +1,17 @@
 // house-ui: the components (PLAN D-9). The stylesheet is separate:
 // import 'house-ui/house-ui.css' once in main.tsx, before the app's own CSS.
 export { AppShell, type AppShellProps } from './components/AppShell'
-export { Sidebar, SidebarLink, type SidebarProps, type SidebarLinkProps } from './components/Sidebar'
+export {
+  Sidebar,
+  SidebarLink,
+  SidebarSection,
+  SidebarItem,
+  SidebarAction,
+  type SidebarProps,
+  type SidebarLinkProps,
+  type SidebarSectionProps,
+  type SidebarItemProps,
+} from './components/Sidebar'
 export { useShell, type ShellState } from './components/shellContext'
 export { PageHead, Page, type PageHeadProps } from './components/PageHead'
 export { Card, type CardProps } from './components/Card'
@@ -29,4 +39,17 @@ export {
   Textarea,
   type FieldProps,
 } from './components/Form'
+export { UserMenu, MenuItem, type UserMenuProps, type MenuItemProps } from './components/Menu'
+export { Tabs, TabPanel, type Tab, type TabsProps } from './components/Tabs'
+export { InfoButton, type InfoButtonProps } from './components/InfoButton'
+export {
+  Banner,
+  Loading,
+  ConfirmButton,
+  Facts,
+  type BannerProps,
+  type ConfirmButtonProps,
+  type FactsProps,
+} from './components/Feedback'
+export { GearIcon, PersonIcon, MenuIcon, PlusIcon } from './components/icons'
 export { cx } from './cx'

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useState, type ReactNode } from 'react'
 import { cx } from '../cx'
+import { MenuIcon } from './icons'
 import { ShellContext, type ShellState } from './shellContext'
 
 export interface AppShellProps {
@@ -86,13 +87,5 @@ export function AppShell({
         </div>
       </div>
     </ShellContext.Provider>
-  )
-}
-
-function MenuIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
   )
 }

@@ -35,7 +35,7 @@ then <http://localhost:5673> (the kitchen sink).
 ## Installing it in an app
 
 ```bash
-npm install https://github.com/kenjabber/house-ui/releases/download/v1.0.0/house-ui-1.0.0.tgz
+npm install https://github.com/kenjabber/house-ui/releases/download/v1.1.0/house-ui-1.1.0.tgz
 ```
 
 `package.json` then pins that URL (D-3, D-4). In `main.tsx`, before the app's
@@ -140,7 +140,7 @@ closed by a link, the backdrop or Escape.
 |---|---|
 | `brand` | The app's name |
 | `children` | `SidebarLink`s |
-| `below` | Anything under the links (a list of scenarios, a tree); hidden when collapsed |
+| `below` | Anything under the links, usually `SidebarSection`s (stocker's scenarios, kwicky's site tree); hidden when collapsed |
 | `navLabel` | The nav's accessible name, default "Sections" |
 
 | SidebarLink prop | |
@@ -168,6 +168,43 @@ closed by a link, the backdrop or Escape.
 
 `useShell()` gives a component inside the shell `collapsed`, `navOpen` and
 their setters.
+
+**The area below the links** holds lists on the dark sidebar:
+`SidebarSection` (`title`, `actions`) with `SidebarAction`s (small icon
+buttons, each with an `aria-label`; `danger` for a delete) and `SidebarItem`
+rows (`active`, `meta` at the right, `as` like SidebarLink). A row's click
+also closes the compact overlay. The links keep their height (up to 60% of
+the sidebar) and this area scrolls.
+
+```tsx
+<Sidebar brand="stocker" below={
+  <SidebarSection title="Scenarios" actions={<SidebarAction aria-label="Add scenario" onClick={add}><PlusIcon /></SidebarAction>}>
+    {scenarios.map((s) => (
+      <SidebarItem key={s.name} active={s.name === selected} meta={s.is_locked ? '🔒' : undefined} onClick={() => select(s.name)}>
+        {s.name}
+      </SidebarItem>
+    ))}
+  </SidebarSection>
+} />
+```
+
+**The header's right side** is a ghost icon `Button` with `GearIcon` for
+settings, then a `UserMenu`:
+
+```tsx
+headerRight={
+  <>
+    <Button variant="ghost" icon aria-label="Settings" onClick={openSettings}><GearIcon /></Button>
+    <UserMenu name={user.display_name} badge={user.is_admin ? 'admin' : undefined}>
+      <MenuItem danger onClick={signOut}>Sign out</MenuItem>
+    </UserMenu>
+  </>
+}
+```
+
+`UserMenu` (`name`, `badge`, `MenuItem` children, each `danger` or not)
+closes on a choice, Escape or a click elsewhere; the arrow keys move
+between items.
 
 ### Page, PageHead
 
@@ -288,6 +325,71 @@ and 16px text on touch screens.
 </FormGrid>
 <FormActions><Button type="submit" variant="primary">Save</Button></FormActions>
 ```
+
+### Tabs, TabPanel
+
+A row of tabs, the selected one underlined: the settings modals' tabs.
+`tabs` (`key`, `label`, `disabled`), `value`, `onChange`, `label` (the
+list's accessible name). Arrow keys, Home and End move between tabs. Render
+the selected tab's content yourself; with `idPrefix`, wrap it in
+`<TabPanel idPrefix tabKey>` and the two are wired for screen readers.
+
+```tsx
+<Tabs label="Settings" idPrefix="settings" value={tab} onChange={setTab}
+  tabs={[{ key: 'users', label: 'Users' }, { key: 'tokens', label: 'API tokens' }]} />
+<TabPanel idPrefix="settings" tabKey={tab}>{tab === 'users' ? <Users /> : <Tokens />}</TabPanel>
+```
+
+### Banner, Loading
+
+`Banner` is a message across a page or card: `kind` (the five of D-11,
+default `info`), optional `title`, the text as children, and `items` for a
+list (warnings). `bad` is announced at once (role alert), the rest politely.
+An empty banner renders nothing, so `<Banner kind="warn" items={warnings} />`
+can always be there. An app's `ErrorBanner` is one line on top of it:
+
+```tsx
+export const ErrorBanner = ({ error }: { error: unknown }) => (error ? <Banner kind="bad">{errorText(error)}</Banner> : null)
+```
+
+`Loading` shows "Loading…" (`what` changes the word).
+
+### ConfirmButton
+
+A button that asks first, in a Modal, and runs `onConfirm` on yes: `label`,
+`title`, `message`, `confirmLabel`, `danger` (red text, red confirm), `sm`,
+`disabled`.
+
+```tsx
+<ConfirmButton label="Delete" title={`Delete ${app.name}?`} message="Its data volume is kept." danger onConfirm={del} />
+```
+
+### Facts
+
+A two-column list of labels and values (one column on a phone): `items` as
+`[label, value]` pairs, a missing value shown as "—"; `mono` for ids, paths
+and hashes.
+
+```tsx
+<Facts mono items={[['Commit', run.sha], ['Image', run.image]]} />
+```
+
+### InfoButton
+
+The "?" beside a title: `title` (it reads "About <title>") and the note as
+children. A click opens the note (above or below, wherever there is room,
+in the theme around the button); a second click, Escape or a click elsewhere
+closes it.
+
+```tsx
+<h2 className="hu-row">Edges <InfoButton title="Edges">An edge is a Caddy that routes names to apps.</InfoButton></h2>
+```
+
+### Icons
+
+`GearIcon`, `PersonIcon`, `MenuIcon`, `PlusIcon`: the few house-ui's own
+pieces and every header use. They take SVG props and are 1em square. Apps
+bring their own icons for everything else.
 
 ### Base and helpers
 

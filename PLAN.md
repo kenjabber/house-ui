@@ -110,6 +110,11 @@ Implementation starts at the build order (§7).
     text from the current tokens.
   - `base.css` — element defaults: body, headings, links, `code`/`pre`,
     focus ring, scrollbars.
+  - Added in v1.1 (TODO 6, pieces two or more apps had): `UserMenu` and
+    `MenuItem`, `Tabs` and `TabPanel`, `InfoButton`, `Banner`, `Loading`,
+    `ConfirmButton`, `Facts`, the header icons (`GearIcon`, `PersonIcon`,
+    `MenuIcon`, `PlusIcon`), and for the sidebar's lower area
+    `SidebarSection`, `SidebarItem`, `SidebarAction`.
 - **D-10** **Layout: the sidebar shell.** NetConfig's and kwicky's (their
   CSS is identical): dark sidebar 240 px wide, collapsing to 56 px icons, main
   area with a header and its own scroll. When the shell is 980 px wide or
@@ -118,9 +123,12 @@ Implementation starts at the build order (§7).
   custom property cannot be used in a query) the sidebar becomes an overlay
   opened from the header. The header's title is the section's name, not a
   heading; the page's h1 is its `PageHead`. The sidebar takes any content below its links.
-  Apps on a top nav (AppConfig, NestEgg) move to it; so does stocker, whose
-  collapsible scenario pane (`.ticker-explorer`) beside a `main-header` is
-  not a nav sidebar (where that pane goes is TODO 5).
+  The sidebar's lower area (`below`) holds lists as `SidebarSection`s of
+  `SidebarItem`s; the links keep their height and that area scrolls. Apps on
+  a top nav (AppConfig, NestEgg) move to it. stocker's scenario pane
+  (`.ticker-explorer`, today a collapsible dark column beside a
+  `main-header`) goes in the sidebar's lower area, under its links, as a
+  `SidebarSection`; kwicky's site tree goes there too.
 - **D-11** **One status vocabulary: the five chip kinds.** `.badge--*` and
   `.status-badge` are retired; each app maps its own states onto `ok`,
   `warn`, `bad`, `info`, `neutral` in its retrofit.

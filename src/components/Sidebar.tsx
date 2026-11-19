@@ -89,3 +89,79 @@ export function SidebarLink<C extends ElementType = 'button'>({
     </Comp>
   )
 }
+
+export interface SidebarSectionProps {
+  /** A small uppercase heading. */
+  title: ReactNode
+  /** Small buttons at the right of the heading: `<SidebarAction>`s. */
+  actions?: ReactNode
+  children?: ReactNode
+  className?: string
+}
+
+/**
+ * A titled block in the Sidebar's `below` area: stocker's scenario list,
+ * kwicky's site tree.
+ */
+export function SidebarSection({ title, actions, children, className }: SidebarSectionProps) {
+  return (
+    <section className={cx('hu-sidebar-section', className)}>
+      <div className="hu-sidebar-section__head">
+        <h2 className="hu-sidebar-section__title">{title}</h2>
+        {actions && <div className="hu-sidebar-section__actions">{actions}</div>}
+      </div>
+      {children}
+    </section>
+  )
+}
+
+/** A small icon button on the dark sidebar; give it an `aria-label`. */
+export function SidebarAction({ className, danger, ...rest }: ComponentPropsWithoutRef<'button'> & { danger?: boolean }) {
+  return <button type="button" className={cx('hu-sidebar-action', danger && 'hu-sidebar-action--danger', className)} {...rest} />
+}
+
+interface SidebarItemOwnProps {
+  /** The selected row. */
+  active?: boolean
+  /** Something at the right of the row (a lock, a count). */
+  meta?: ReactNode
+  children?: ReactNode
+  className?: string
+}
+
+export type SidebarItemProps<C extends ElementType = 'button'> = SidebarItemOwnProps & {
+  /** "button" (default), "a", or a router link. */
+  as?: C
+} & Omit<ComponentPropsWithoutRef<C>, keyof SidebarItemOwnProps | 'as'>
+
+/**
+ * One row of a list in the sidebar's `below` area (a scenario, a page in
+ * the tree). Denser than a SidebarLink. A click also closes the compact overlay.
+ */
+export function SidebarItem<C extends ElementType = 'button'>({
+  as,
+  active,
+  meta,
+  children,
+  className,
+  ...rest
+}: SidebarItemProps<C>) {
+  const { setNavOpen } = useShell()
+  const Comp: ElementType = as ?? 'button'
+  const props = rest as Record<string, unknown> & { onClick?: (e: MouseEvent) => void }
+  return (
+    <Comp
+      {...props}
+      {...(Comp === 'button' ? { type: 'button' } : {})}
+      className={cx('hu-sidebar-item', active && 'hu-sidebar-item--active', className)}
+      aria-current={active ? 'true' : (props['aria-current'] as string | undefined)}
+      onClick={(e: MouseEvent) => {
+        props.onClick?.(e)
+        setNavOpen(false)
+      }}
+    >
+      <span className="hu-sidebar-item__label">{children}</span>
+      {meta !== undefined && meta !== null && <span className="hu-sidebar-item__meta">{meta}</span>}
+    </Comp>
+  )
+}

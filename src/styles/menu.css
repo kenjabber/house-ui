@@ -1,0 +1,88 @@
+/* UserMenu and MenuItem: the header's user button and its drop-down. */
+@layer house-ui {
+  .hu-user-menu {
+    position: relative;
+  }
+  .hu-user-menu__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 2rem;
+    max-width: 16rem;
+    padding: 0 var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: var(--text-base);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .hu-user-menu__button:hover,
+  .hu-user-menu__button[aria-expanded="true"] {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+  }
+  .hu-user-menu__button svg {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+  .hu-user-menu__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hu-user-menu__badge {
+    font-size: var(--text-micro);
+  }
+
+  .hu-menu {
+    position: absolute;
+    z-index: var(--z-overlay);
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 160px;
+    padding: var(--space-1);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-popover);
+  }
+  .hu-menu__item {
+    display: block;
+    width: 100%;
+    padding: 0.45rem 0.75rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--text-primary);
+    font: inherit;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .hu-menu__item:hover:not(:disabled),
+  .hu-menu__item:focus-visible {
+    background: var(--surface-hover);
+    outline: none;
+  }
+  .hu-menu__item:disabled {
+    opacity: var(--disabled-opacity);
+    cursor: default;
+  }
+  .hu-menu__item--danger {
+    color: var(--danger);
+  }
+
+  @media (pointer: coarse) {
+    .hu-user-menu__button {
+      height: var(--touch-target-min);
+    }
+    .hu-menu__item {
+      min-height: var(--touch-target-min);
+    }
+  }
+}

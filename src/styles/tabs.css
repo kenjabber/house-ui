@@ -1,0 +1,45 @@
+/* Tabs: a row of tabs underlined when selected (the settings modals'). */
+@layer house-ui {
+  .hu-tabs {
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .hu-tab {
+    flex-shrink: 0;
+    margin-bottom: -1px;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--text-secondary);
+    font: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .hu-tab:hover:not(:disabled) {
+    color: var(--text-primary);
+  }
+  .hu-tab:disabled {
+    opacity: var(--disabled-opacity);
+    cursor: default;
+  }
+  .hu-tab--active,
+  .hu-tab--active:hover:not(:disabled) {
+    color: var(--text-blue);
+    border-bottom-color: var(--accent);
+  }
+  .hu-tab:focus-visible {
+    outline-offset: -2px;
+  }
+
+  @media (pointer: coarse) {
+    .hu-tab {
+      min-height: var(--touch-target-min);
+    }
+  }
+}
