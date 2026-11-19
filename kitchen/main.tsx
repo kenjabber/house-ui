@@ -461,6 +461,9 @@ function Forms() {
         <Field label="Deploy on push" help="A checkbox field puts its label beside the box.">
           <Checkbox defaultChecked />
         </Field>
+        <Field label="Answer DNS queries from the guest VLAN as well as from the trusted one" help="A long label wraps beside the box.">
+          <Checkbox />
+        </Field>
       </FormGrid>
       <h3>A Checkbox outside a Field</h3>
       <div className="hu-stack" style={{ gap: 'var(--space-1)' }}>
