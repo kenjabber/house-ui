@@ -189,17 +189,80 @@ function ListPage({ section }: { section: string }) {
   )
 }
 
+/** Groups of items for the fill-card demo, so the list is longer than the card. */
+const RC_GROUPS = ['Interfaces', 'Firewall rules', 'NAT', 'Static routes'].map((g, gi) => ({
+  group: g,
+  items: Array.from({ length: 8 }, (_, i) => `${g.split(' ')[0].toLowerCase()}-${gi * 8 + i + 1}`),
+}))
+
+/** One card the height of the main area: head, Banner, then a list that scrolls by itself beside a form. */
+function FillCardPage() {
+  const [selected, setSelected] = useState(RC_GROUPS[0].items[0])
+  return (
+    <Page fill>
+      <Card
+        fill
+        title={
+          <>
+            Router config <InfoButton title="Router config">The card fills the page; the list scrolls by itself.</InfoButton>
+          </>
+        }
+        headActions={
+          <>
+            <Button sm>Fetch</Button>
+            <Button sm variant="primary">Apply</Button>
+          </>
+        }
+      >
+        <Banner kind="warn">Card fill: the head and this Banner keep their height, the split below takes the rest.</Banner>
+        <div className="hu-fill ks-split">
+          <ul className="ks-split__list" role="listbox" aria-label="Config items">
+            {RC_GROUPS.map((g) => (
+              <li key={g.group} role="presentation">
+                <div className="ks-split__group">{g.group}</div>
+                <ul role="presentation">
+                  {g.items.map((it) => (
+                    <li
+                      key={it}
+                      role="option"
+                      aria-selected={it === selected}
+                      className="ks-split__item"
+                      onClick={() => setSelected(it)}
+                    >
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          <div className="ks-split__panel">
+            <FormGrid>
+              <Field label="Name"><Input value={selected} readOnly /></Field>
+              <Field label="Comment"><Input placeholder="optional" /></Field>
+              <Field label="Notes" wide><Textarea rows={4} /></Field>
+            </FormGrid>
+          </div>
+        </div>
+      </Card>
+    </Page>
+  )
+}
+
 function DemoShell({
   title,
   defaultCollapsed,
   withBelow,
   list,
+  card,
 }: {
   title: string
   defaultCollapsed?: boolean
   withBelow?: boolean
   /** Show a list page (Page fill, PageHead hideTitle, TableWrap fill). */
   list?: boolean
+  /** Show a fill card page (Page fill, Card fill, .hu-fill). */
+  card?: boolean
 }) {
   const [section, setSection] = useState('Hosts')
   return (
@@ -246,6 +309,8 @@ function DemoShell({
       >
         {list ? (
           <ListPage section={section} />
+        ) : card ? (
+          <FillCardPage />
         ) : (
           <Page>
             <PageHead title={section} subtitle="The page scrolls inside the main area." actions={<Button variant="primary">Add</Button>} />
@@ -656,6 +721,7 @@ function KitchenSink() {
     ['shell', 'AppShell'],
     ['page', 'PageHead and Card'],
     ['fill', 'Page fill (list page)'],
+    ['fillcard', 'Card fill'],
     ['buttons', 'Button'],
     ['chips', 'Chip'],
     ['tables', 'Table and TableFilter'],
@@ -810,6 +876,22 @@ function KitchenSink() {
           {() => (
             <div className="ks-narrow">
               <DemoShell title="AppConfig" list />
+            </div>
+          )}
+        </Pair>
+      </Section>
+
+      <Section id="fillcard" title="Card fill">
+        <p className="hu-hint">
+          Page fill with one Card fill: the card is as tall as the main area, its head and Banner keep their height, and a
+          .hu-fill split takes the rest; the list on the left scrolls by itself, the main area does not.
+        </p>
+        <Stacked>{() => <DemoShell title="NetConfig" card />}</Stacked>
+        <p className="hu-hint">Compact (375px): at 600px and below the card is an ordinary card and the main area scrolls.</p>
+        <Pair>
+          {() => (
+            <div className="ks-narrow">
+              <DemoShell title="NetConfig" card />
             </div>
           )}
         </Pair>

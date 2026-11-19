@@ -244,10 +244,49 @@ scroll. Use it with `<Table stickyHead>` so the header row stays in view.
 </Page>
 ```
 
+**A card that fills the page: `Card fill`.** For one card the height of the
+main area whose content scrolls by itself (a list beside a form), put a
+`<Card fill>` straight in a `<Page fill>`. The card takes the page's remaining
+height and is a flex column: its head, its `actions` row and its other
+children (a Banner) keep their natural height, and one child takes the rest:
+a `<TableWrap fill>`, or any element with `className="hu-fill"` (`flex: 1 1
+auto; min-height: 0; min-width: 0`). A `.hu-fill` lays itself out (the app's
+own grid), and each box in it that should scroll carries `overflow: auto;
+min-height: 0`. For a grid, give it one row as tall as the box,
+`grid-template-rows: minmax(0, 1fr)`, or the row grows with its content.
+A `.hu-fill` straight in a `<Page fill>` (no card) takes the rest the same way.
+
+```tsx
+<Page fill>
+  <Card fill title="Router config" headActions={<Button sm>Fetch</Button>}>
+    <ErrorBanner error={error} />
+    <div className="hu-fill rc-split">   {/* the app's grid: list | form */}
+      <ul className="rc-list">…</ul>    {/* overflow: auto; min-height: 0 */}
+      <div className="rc-panel">…</div>
+    </div>
+  </Card>
+</Page>
+```
+
+```css
+.rc-split { display: grid; grid-template-columns: 16rem minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: var(--space-4); }
+.rc-list, .rc-panel { overflow: auto; min-height: 0; }
+```
+
+In a fill card the blocks keep their even gap, but the card is a flex column,
+so text straight in it is not on one line with its neighbours: wrap it in a
+`<p>`. Put only one fill child in a card. **At phone width** (the shell 600px
+wide or less) a box the rest of a small screen high is too small for a list
+beside a form, so a page holding a fill card is an ordinary page: the page,
+the card and its fill child take their natural height and the main area
+scrolls (stack the app's grid there too). A `<TableWrap fill>` straight in a
+`<Page fill>` keeps filling at every width.
+
 ### Card
 
 A raised box. `title` (an h2), `headActions` (right of the title), the body
-as children, `actions` (a right-aligned row under the body).
+as children, `actions` (a right-aligned row under the body), `fill` (in a
+`Page fill`, take the rest of the page's height; see Page, PageHead).
 
 ```tsx
 <Card title="Backups" headActions={<Button sm>Run now</Button>} actions={<Button variant="primary">Save</Button>}>
@@ -528,7 +567,8 @@ bring their own icons for everything else.
 `house-ui.css` also sets element defaults (body, headings, links, `code`,
 `pre`, focus ring, scrollbars) and a few helper classes: `hu-muted`,
 `hu-hint`, `hu-mono`, `hu-row` (a wrapping row with a gap), `hu-stack` (a
-column with a gap), `hu-subhead` (a sub-heading outside a Card),
+column with a gap), `hu-fill` (the child that takes the rest of a `Card fill`
+or a `Page fill`), `hu-subhead` (a sub-heading outside a Card),
 `hu-visually-hidden`.
 
 ## house-ui-check

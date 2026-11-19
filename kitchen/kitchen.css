@@ -102,3 +102,54 @@
   font-size: var(--text-xs);
   font-family: var(--font-mono);
 }
+
+/* The Card fill demo's split: the app's own layout inside a .hu-fill. One
+   row as tall as the box (minmax(0, 1fr)), each column scrolls by itself. */
+.ks-split {
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+.ks-split__list,
+.ks-split__panel {
+  min-height: 0;
+  overflow: auto;
+}
+.ks-split__list {
+  list-style: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+.ks-split__list ul {
+  list-style: none;
+}
+.ks-split__panel {
+  padding: var(--space-1);
+}
+.ks-split__group {
+  padding: var(--space-1) var(--space-3);
+  background: var(--surface-thead);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.ks-split__item {
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  font-size: var(--text-base);
+}
+.ks-split__item:hover {
+  background: var(--surface-hover);
+}
+.ks-split__item[aria-selected='true'] {
+  background: var(--surface-sunken);
+  font-weight: 650;
+}
+@container hu-shell (max-width: 600px) {
+  .ks-split {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+}

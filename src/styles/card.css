@@ -17,7 +17,9 @@
   .hu-page--fill > * {
     flex-shrink: 0;
   }
-  .hu-page--fill > .hu-table-wrap--fill {
+  .hu-page--fill > .hu-table-wrap--fill,
+  .hu-page--fill > .hu-card--fill,
+  .hu-page--fill > .hu-fill {
     flex: 1 1 auto;
     min-height: 0;
   }
@@ -63,6 +65,43 @@
     box-shadow: var(--shadow-card);
     padding: var(--space-4);
     min-width: 0;
+  }
+  /* Card fill: straight in a Page fill it takes the rest of the page's
+     height (above) and is a flex column. Its children keep their height
+     (the head, a Banner, the actions row); one fill child, a TableWrap fill
+     or .hu-fill, takes the rest. A .hu-fill gives itself its own layout, and
+     the boxes in it that scroll carry overflow: auto and min-height: 0. The
+     block gap below still holds: margins do not collapse between flex items,
+     and nothing else in a card has a vertical margin. */
+  .hu-card--fill {
+    display: flex;
+    flex-direction: column;
+  }
+  .hu-card--fill > * {
+    flex-shrink: 0;
+  }
+  .hu-card--fill > .hu-table-wrap--fill,
+  .hu-card--fill > .hu-fill {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+  }
+  .hu-page--fill > .hu-fill {
+    min-width: 0;
+  }
+  /* At phone width a box the rest of a small screen high is too small for a
+     list beside a form, so a page holding a fill card is an ordinary page:
+     the card and its fill child take their natural height and the main area
+     scrolls. A TableWrap fill straight in a Page fill keeps filling. */
+  @container hu-shell (max-width: 600px) {
+    .hu-page--fill:has(> .hu-card--fill) {
+      height: auto;
+    }
+    .hu-page--fill > .hu-card--fill,
+    .hu-card--fill > .hu-table-wrap--fill,
+    .hu-card--fill > .hu-fill {
+      flex: none;
+    }
   }
   .hu-card__head {
     display: flex;
