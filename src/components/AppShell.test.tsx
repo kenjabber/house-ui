@@ -112,6 +112,36 @@ describe('SidebarSection and SidebarItem', () => {
     expect(container.querySelector('.hu-shell')).not.toHaveClass('hu-shell--nav-open')
   })
 
+  it('keeps the overlay open on a keepOpen row or link, and closes it on the others', () => {
+    const { container } = render(
+      <AppShell
+        sidebar={
+          <Sidebar
+            brand="kwicky"
+            below={
+              <SidebarSection title="Pages">
+                <SidebarItem keepOpen>projects</SidebarItem>
+                <SidebarItem>home</SidebarItem>
+              </SidebarSection>
+            }
+          >
+            <SidebarLink label="Recent" keepOpen />
+          </Sidebar>
+        }
+      />,
+    )
+    const shell = container.querySelector('.hu-shell')!
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    expect(shell).toHaveClass('hu-shell--nav-open')
+    fireEvent.click(screen.getByRole('button', { name: 'projects' }))
+    expect(shell).toHaveClass('hu-shell--nav-open')
+    fireEvent.click(screen.getByRole('button', { name: /Recent/ }))
+    expect(shell).toHaveClass('hu-shell--nav-open')
+    expect(screen.getByRole('button', { name: 'projects' })).not.toHaveAttribute('keepOpen')
+    fireEvent.click(screen.getByRole('button', { name: 'home' }))
+    expect(shell).not.toHaveClass('hu-shell--nav-open')
+  })
+
   it('shows an icon before the label, hidden from screen readers', () => {
     render(
       <AppShell

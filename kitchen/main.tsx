@@ -163,6 +163,7 @@ function SiteTree() {
         <SidebarItem
           key={path}
           icon={folder ? FolderIcon : PageIcon}
+          keepOpen={folder}
           active={picked === path}
           onClick={() => setPicked(path)}
           style={{ paddingLeft: `calc(var(--space-2) + ${depth} * var(--space-4))` }}

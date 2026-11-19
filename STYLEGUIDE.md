@@ -150,6 +150,7 @@ closed by a link, the backdrop or Escape.
 | `badge` | A count |
 | `active` | The current section (a router `NavLink` marks itself) |
 | `as` | `"button"` (default), `"a"` with `href`, or a router link with its props |
+| `keepOpen` | A click leaves the compact overlay open (by default it closes it) |
 
 ```tsx
 <AppShell
@@ -176,7 +177,9 @@ rows (`active`, `icon` before the label, `meta` at the right, `as` like
 SidebarLink). An `icon` is an inline SVG drawn 1rem square in the row's
 colour (`stroke="currentColor"`), a little dimmed, so it reads on the active
 row too: kwicky's folder and page icons. A row's click
-also closes the compact overlay. The links keep their height (up to 60% of
+also closes the compact overlay; a row that changes the list itself, such as
+opening a folder, keeps the overlay open: give it `keepOpen` (SidebarLink
+takes it too). The links keep their height (up to 60% of
 the sidebar) and this area scrolls.
 
 ```tsx

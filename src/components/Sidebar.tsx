@@ -47,6 +47,8 @@ interface SidebarLinkOwnProps {
   badge?: ReactNode
   /** Marks the current section. A router link that sets aria-current="page" needs nothing. */
   active?: boolean
+  /** Leave the compact overlay open on a click (by default a click closes it). */
+  keepOpen?: boolean
   className?: string
 }
 
@@ -55,13 +57,14 @@ export type SidebarLinkProps<C extends ElementType = 'button'> = SidebarLinkOwnP
   as?: C
 } & Omit<ComponentPropsWithoutRef<C>, keyof SidebarLinkOwnProps | 'as' | 'children'>
 
-/** One entry in the sidebar. A click also closes the compact overlay. */
+/** One entry in the sidebar. A click also closes the compact overlay, unless `keepOpen`. */
 export function SidebarLink<C extends ElementType = 'button'>({
   as,
   icon,
   label,
   badge,
   active,
+  keepOpen,
   className,
   ...rest
 }: SidebarLinkProps<C>) {
@@ -70,7 +73,7 @@ export function SidebarLink<C extends ElementType = 'button'>({
   const props = rest as Record<string, unknown> & { onClick?: (e: MouseEvent) => void }
   const onClick = (e: MouseEvent) => {
     props.onClick?.(e)
-    setNavOpen(false)
+    if (!keepOpen) setNavOpen(false)
   }
   return (
     <Comp
@@ -127,6 +130,11 @@ interface SidebarItemOwnProps {
   active?: boolean
   /** Something at the right of the row (a lock, a count). */
   meta?: ReactNode
+  /**
+   * Leave the compact overlay open on a click: a row that changes the list
+   * itself (opening a folder). By default a click closes it.
+   */
+  keepOpen?: boolean
   children?: ReactNode
   className?: string
 }
@@ -138,13 +146,15 @@ export type SidebarItemProps<C extends ElementType = 'button'> = SidebarItemOwnP
 
 /**
  * One row of a list in the sidebar's `below` area (a scenario, a page in
- * the tree). Denser than a SidebarLink. A click also closes the compact overlay.
+ * the tree). Denser than a SidebarLink. A click also closes the compact
+ * overlay, unless `keepOpen` (a folder row that drills in).
  */
 export function SidebarItem<C extends ElementType = 'button'>({
   as,
   icon,
   active,
   meta,
+  keepOpen,
   children,
   className,
   ...rest
@@ -160,7 +170,7 @@ export function SidebarItem<C extends ElementType = 'button'>({
       aria-current={active ? 'true' : (props['aria-current'] as string | undefined)}
       onClick={(e: MouseEvent) => {
         props.onClick?.(e)
-        setNavOpen(false)
+        if (!keepOpen) setNavOpen(false)
       }}
     >
       {icon !== undefined && icon !== null && (
