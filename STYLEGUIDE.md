@@ -35,7 +35,7 @@ then <http://localhost:5673> (the kitchen sink).
 ## Installing it in an app
 
 ```bash
-npm install https://github.com/kenjabber/house-ui/releases/download/v1.5.0/house-ui-1.5.0.tgz
+npm install https://github.com/kenjabber/house-ui/releases/download/v1.6.0/house-ui-1.6.0.tgz
 ```
 
 `package.json` then pins that URL (D-3, D-4). In `main.tsx`, before the app's
@@ -645,7 +645,7 @@ both columns of the kitchen sink).
 npm test         # components, tokens, house-ui-check
 npm run lint
 npm run build    # dist/: index.js, index.d.ts, house-ui.css
-./release.sh 1.5.0
+./release.sh 1.6.0
 ```
 
 A renamed class, removed prop or removed token is a breaking change and bumps
