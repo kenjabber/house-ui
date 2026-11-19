@@ -21,5 +21,5 @@ npm run watch     # rebuild dist/ on change, for an app using `npm link`
 An app installs a release by its URL:
 
 ```bash
-npm install https://github.com/kenjabber/house-ui/releases/download/v1.1.0/house-ui-1.1.0.tgz
+npm install https://github.com/kenjabber/house-ui/releases/download/v1.2.0/house-ui-1.2.0.tgz
 ```
