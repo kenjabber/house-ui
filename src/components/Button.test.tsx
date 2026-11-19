@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Button } from './Button'
+import { Button, ButtonLink } from './Button'
 import { Chip } from './Chip'
 
 describe('Button', () => {
@@ -26,6 +26,46 @@ describe('Button', () => {
   it('has a ghost-danger variant: secondary with red text', () => {
     render(<Button variant="ghost-danger" sm>Revoke</Button>)
     expect(screen.getByRole('button', { name: 'Revoke' }).className).toBe('hu-btn hu-btn--ghost-danger hu-btn--sm')
+  })
+})
+
+describe('ButtonLink', () => {
+  it('is a link with the button classes, secondary by default', () => {
+    render(
+      <ButtonLink href="/x.conf" download>
+        Download
+      </ButtonLink>,
+    )
+    const a = screen.getByRole('link', { name: 'Download' })
+    expect(a.tagName).toBe('A')
+    expect(a.className).toBe('hu-btn')
+    expect(a).toHaveAttribute('href', '/x.conf')
+    expect(a).toHaveAttribute('download')
+    expect(a).not.toHaveAttribute('type')
+  })
+
+  it('takes variant, sm, icon and a className', () => {
+    render(
+      <ButtonLink href="/" variant="primary" sm icon aria-label="Home" className="extra">
+        x
+      </ButtonLink>,
+    )
+    expect(screen.getByRole('link', { name: 'Home' }).className).toBe('hu-btn hu-btn--primary hu-btn--sm hu-btn--icon extra')
+  })
+
+  it('renders another component with `as`, passing its props', () => {
+    const RouterLink = ({ to, ...rest }: { to: string; className?: string; children?: React.ReactNode }) => (
+      <a href={`#${to}`} data-router="yes" {...rest} />
+    )
+    render(
+      <ButtonLink as={RouterLink} to="/hosts" variant="ghost">
+        Hosts
+      </ButtonLink>,
+    )
+    const a = screen.getByRole('link', { name: 'Hosts' })
+    expect(a).toHaveAttribute('href', '#/hosts')
+    expect(a).toHaveAttribute('data-router', 'yes')
+    expect(a.className).toBe('hu-btn hu-btn--ghost')
   })
 })
 

@@ -283,6 +283,17 @@ pass `type="submit"` in a form.
 <Button variant="ghost" icon aria-label="Settings"><GearIcon /></Button>
 ```
 
+**A link that looks like a button: `ButtonLink`.** A download, or a
+button-shaped way to another page, is a link, not a `<button>`. `ButtonLink`
+renders an `<a>` with the same `variant`, `sm` and `icon`; `as` renders a
+router link instead, with its props. A link cannot be disabled: leave it out
+instead.
+
+```tsx
+<ButtonLink href={configUrl(device.id)} download>Download .conf</ButtonLink>
+<ButtonLink as={Link} to="/hosts/new" variant="primary">Add host</ButtonLink>
+```
+
 ### Chip
 
 `kind`: `ok`, `warn`, `bad`, `info`, `neutral` (default). Several in a row:

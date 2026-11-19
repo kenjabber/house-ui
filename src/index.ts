@@ -15,7 +15,7 @@ export {
 export { useShell, type ShellState } from './components/shellContext'
 export { PageHead, Page, type PageHeadProps, type PageProps } from './components/PageHead'
 export { Card, type CardProps } from './components/Card'
-export { Button, type ButtonProps, type ButtonVariant } from './components/Button'
+export { Button, ButtonLink, type ButtonProps, type ButtonLinkProps, type ButtonVariant } from './components/Button'
 export { Chip, type ChipProps, type ChipKind } from './components/Chip'
 export { Table, TableWrap, TableEmpty, type TableProps, type TableWrapProps } from './components/Table'
 export {

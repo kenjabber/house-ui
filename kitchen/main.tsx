@@ -9,6 +9,7 @@ import {
   AppShell,
   Banner,
   Button,
+  ButtonLink,
   ConfirmButton,
   DiffView,
   Facts,
@@ -337,6 +338,23 @@ function Buttons() {
           )}
         </div>
       ))}
+      <div className="hu-row">
+        <span className="ks-label" style={{ width: '6.5rem' }}>
+          ButtonLink
+        </span>
+        <ButtonLink href="data:text/plain,peer" download="peer.conf">
+          Download .conf
+        </ButtonLink>
+        <ButtonLink href="#buttons" variant="primary">
+          Primary link
+        </ButtonLink>
+        <ButtonLink href="#buttons" sm>
+          Small
+        </ButtonLink>
+        <ButtonLink href="#buttons" variant="ghost" icon aria-label="Add">
+          {PlusIcon}
+        </ButtonLink>
+      </div>
     </div>
   )
 }

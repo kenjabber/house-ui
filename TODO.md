@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 13 | [A link that looks like a button](#13-a-link-that-looks-like-a-button) | ready to start |
 | 14 | [Checkbox order only inside a Field](#14-checkbox-order-only-inside-a-field) | ready to start |
 | 15 | [A check Field's long label wraps beside the box](#15-a-check-fields-long-label-wraps-beside-the-box) | ready to start |
 | 16 | [Click-to-sort table headers](#16-click-to-sort-table-headers) | ready to start |
@@ -15,17 +14,6 @@ Next number: **17**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 13. A link that looks like a button
-
-`Button` renders only a `<button>`, so a download link (`<a href download>`)
-cannot use it. NetConfig's QR modal
-(`~/develop/netconfig/frontend/src/components/wg/QRModal.tsx`) borrows
-`className="hu-btn"` on an `<a>` (NetConfig TODO 107, R-130).
-
-**Done when:** a `ButtonLink` (an `<a>`, or a router link via `as`) takes
-Button's `variant`, `sm` and `icon`, with tests, on the kitchen sink and in
-STYLEGUIDE.md.
 
 ## 14. Checkbox order only inside a Field
 
