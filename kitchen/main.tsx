@@ -467,6 +467,7 @@ function FeedbackDemo() {
           ['Commit', <span className="hu-mono">a1b2c3d4e5f6</span>],
           ['Server', 'srv-a'],
           ['Last backup', null],
+          HOSTS.length > 99 && ['Temperature', '48 °C (skipped: a falsy entry)'],
         ]}
       />
       <Facts mono items={[['Path', '/opt/kwicky/src'], ['Image', 'kwicky-backend:ac-a1b2c3d4e5f6']]} />

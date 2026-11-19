@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 10 | [Facts: skip empty items](#10-facts-skip-empty-items) | ready to start |
 | 11 | [Tabs that own a panel](#11-tabs-that-own-a-panel) | idea |
 | 12 | [DiffView](#12-diffview) | idea |
 
@@ -14,16 +13,6 @@ Next number: **13**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 10. Facts: skip empty items
-
-Conditional rows (a temperature only on a Pi, host parts only when there
-are some) need spreads with casts:
-`...(x ? [["label", v] as [string, ReactNode]] : [])`. If `items` accepted
-`null`, `false` and `undefined` entries and skipped them, the call would be
-`x && ["label", v]`.
-
-**Done when:** `Facts` skips falsy entries, with a test.
 
 ## 11. Tabs that own a panel
 

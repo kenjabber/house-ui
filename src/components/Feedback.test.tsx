@@ -57,6 +57,24 @@ describe('Facts', () => {
     expect([...container.querySelectorAll('dt')].map((d) => d.textContent)).toEqual(['Commit', 'Tag'])
     expect([...container.querySelectorAll('dd')].map((d) => d.textContent)).toEqual(['a1b2c3', '—'])
   })
+
+  it('skips falsy entries, so a conditional row is `cond && [label, value]`', () => {
+    const pi = false
+    const parts: string[] = []
+    const { container } = render(
+      <Facts
+        items={[
+          ['Host', 'srv1a'],
+          pi && ['Temperature', '48 °C'],
+          parts.length && ['Parts', parts.join(', ')],
+          null,
+          undefined,
+          ['Kernel', '6.8'],
+        ]}
+      />,
+    )
+    expect([...container.querySelectorAll('dt')].map((d) => d.textContent)).toEqual(['Host', 'Kernel'])
+  })
 })
 
 describe('InfoButton', () => {

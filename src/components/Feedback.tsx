@@ -116,9 +116,15 @@ export function ConfirmButton({
   )
 }
 
+/** One row of `Facts`: a label and its value. */
+export type FactsItem = [ReactNode, ReactNode]
+
 export interface FactsProps {
-  /** Label and value pairs. A null or undefined value shows as "—". */
-  items: Array<[ReactNode, ReactNode]>
+  /**
+   * Label and value pairs. A null or undefined value shows as "—". Falsy
+   * entries are skipped, so a conditional row is `cond && ['Label', value]`.
+   */
+  items: Array<FactsItem | null | undefined | false | 0 | ''>
   /** Values in the monospace font (ids, paths, hashes). */
   mono?: boolean
   className?: string
@@ -128,7 +134,7 @@ export interface FactsProps {
 export function Facts({ items, mono, className }: FactsProps) {
   return (
     <dl className={cx('hu-facts', mono && 'hu-facts--mono', className)}>
-      {items.map(([label, value], i) => (
+      {items.filter((item): item is FactsItem => Boolean(item)).map(([label, value], i) => (
         <div key={i} className="hu-facts__row">
           <dt>{label}</dt>
           <dd>{value ?? '—'}</dd>

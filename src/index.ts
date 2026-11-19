@@ -52,6 +52,7 @@ export {
   type BannerProps,
   type ConfirmButtonProps,
   type FactsProps,
+  type FactsItem,
 } from './components/Feedback'
 export { GearIcon, PersonIcon, MenuIcon, PlusIcon } from './components/icons'
 export { cx } from './cx'

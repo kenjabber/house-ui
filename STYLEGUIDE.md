@@ -397,10 +397,12 @@ confirm), `sm`,
 
 A two-column list of labels and values (one column on a phone): `items` as
 `[label, value]` pairs, a missing value shown as "—"; `mono` for ids, paths
-and hashes.
+and hashes. Falsy entries are skipped, so a row that only sometimes applies
+is `cond && [label, value]`.
 
 ```tsx
 <Facts mono items={[['Commit', run.sha], ['Image', run.image]]} />
+<Facts items={[['Host', s.name], s.is_pi && ['Temperature', s.temp]]} />
 ```
 
 ### InfoButton
