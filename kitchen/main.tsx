@@ -140,7 +140,64 @@ function Scenarios() {
   )
 }
 
-function DemoShell({ title, defaultCollapsed, withBelow }: { title: string; defaultCollapsed?: boolean; withBelow?: boolean }) {
+/** 60 rows for the fill demo, so the table is longer than the main area. */
+const RUNS = Array.from({ length: 60 }, (_, i) => {
+  const h = HOSTS[i % HOSTS.length]
+  return { id: 1000 - i, app: h.name, server: h.server, status: h.status, kind: h.kind, took: `${(i * 7) % 90 + 4}s` }
+})
+
+/** A list page: no visible title (the header says it), the table fills the page and scrolls by itself. */
+function ListPage({ section }: { section: string }) {
+  return (
+    <Page fill>
+      <PageHead
+        title={section}
+        hideTitle
+        actions={
+          <>
+            <Select inline aria-label="status" defaultValue="">
+              <option value="">all statuses</option>
+              <option>Running</option>
+            </Select>
+            <Button variant="primary">Add</Button>
+          </>
+        }
+      />
+      <Banner kind="info">Page fill: the table scrolls inside its wrap, the header row stays, the main area does not scroll.</Banner>
+      <TableWrap fill>
+        <Table stickyHead>
+          <thead>
+            <tr><th>Run</th><th>App</th><th>Server</th><th>Status</th><th className="hu-num">Took</th></tr>
+          </thead>
+          <tbody>
+            {RUNS.map((r) => (
+              <tr key={r.id}>
+                <td className="hu-num">{r.id}</td>
+                <td>{r.app}</td>
+                <td>{r.server}</td>
+                <td><Chip kind={r.kind}>{chipValue(r.status)}</Chip></td>
+                <td className="hu-num">{r.took}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </TableWrap>
+    </Page>
+  )
+}
+
+function DemoShell({
+  title,
+  defaultCollapsed,
+  withBelow,
+  list,
+}: {
+  title: string
+  defaultCollapsed?: boolean
+  withBelow?: boolean
+  /** Show a list page (Page fill, PageHead hideTitle, TableWrap fill). */
+  list?: boolean
+}) {
   const [section, setSection] = useState('Hosts')
   return (
     <div className="ks-frame">
@@ -184,18 +241,22 @@ function DemoShell({ title, defaultCollapsed, withBelow }: { title: string; defa
           </Sidebar>
         }
       >
-        <Page>
-          <PageHead title={section} subtitle="The page scrolls inside the main area." actions={<Button variant="primary">Add</Button>} />
-          <Card title="A card">
-            <p>Content.</p>
-          </Card>
-          <Card title="Another card">
-            <p>More content, to make the page scroll.</p>
-          </Card>
-          <Card title="A third card">
-            <p>The end.</p>
-          </Card>
-        </Page>
+        {list ? (
+          <ListPage section={section} />
+        ) : (
+          <Page>
+            <PageHead title={section} subtitle="The page scrolls inside the main area." actions={<Button variant="primary">Add</Button>} />
+            <Card title="A card">
+              <p>Content.</p>
+            </Card>
+            <Card title="Another card">
+              <p>More content, to make the page scroll.</p>
+            </Card>
+            <Card title="A third card">
+              <p>The end.</p>
+            </Card>
+          </Page>
+        )}
       </AppShell>
     </div>
   )
@@ -549,6 +610,7 @@ function KitchenSink() {
     ['base', 'Base'],
     ['shell', 'AppShell'],
     ['page', 'PageHead and Card'],
+    ['fill', 'Page fill (list page)'],
     ['buttons', 'Button'],
     ['chips', 'Chip'],
     ['tables', 'Table and TableFilter'],
@@ -614,6 +676,20 @@ function KitchenSink() {
               <PageHead title="A title alone" />
               <PageHead
                 title="Runs"
+                hideTitle
+                actions={
+                  <>
+                    <Input inline size={12} aria-label="filter" placeholder="Filter…" />
+                    <Button variant="primary">New run</Button>
+                  </>
+                }
+              />
+              <p className="hu-hint">
+                hideTitle (above): the h1 is there for screen readers only, so the head is a toolbar of its actions.
+                A list page whose title is AppShell&apos;s title uses it.
+              </p>
+              <PageHead
+                title="Runs"
                 subtitle="An inline Select in the actions is as wide as its content."
                 actions={
                   <Select inline aria-label="kind" defaultValue="">
@@ -673,6 +749,22 @@ function KitchenSink() {
                 </TableWrap>
                 <p className="hu-hint">Body blocks get an even gap; an h3 in a card is a sub-heading, more space above than below.</p>
               </Card>
+            </div>
+          )}
+        </Pair>
+      </Section>
+
+      <Section id="fill" title="Page fill (list page)">
+        <p className="hu-hint">
+          Page fill, PageHead hideTitle and TableWrap fill with Table stickyHead: the AppShell header names the page, the
+          table takes the rest of the height and scrolls by itself.
+        </p>
+        <Stacked>{() => <DemoShell title="AppConfig" list />}</Stacked>
+        <p className="hu-hint">Compact (375px).</p>
+        <Pair>
+          {() => (
+            <div className="ks-narrow">
+              <DemoShell title="AppConfig" list />
             </div>
           )}
         </Pair>

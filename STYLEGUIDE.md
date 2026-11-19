@@ -35,7 +35,7 @@ then <http://localhost:5673> (the kitchen sink).
 ## Installing it in an app
 
 ```bash
-npm install https://github.com/kenjabber/house-ui/releases/download/v1.2.0/house-ui-1.2.0.tgz
+npm install https://github.com/kenjabber/house-ui/releases/download/v1.3.0/house-ui-1.3.0.tgz
 ```
 
 `package.json` then pins that URL (D-3, D-4). In `main.tsx`, before the app's
@@ -219,6 +219,31 @@ under the title when narrow).
 </Page>
 ```
 
+**List pages: `hideTitle`.** AppShell's header already names the section, so
+a list page whose title is the same ("Runs" in the header, "Runs" as the h1)
+passes `hideTitle`: the h1 stays for screen readers (and `getByRole('heading')`)
+but is visually hidden, and the head becomes a toolbar of its `actions` at the
+right. With no actions and no subtitle only the hidden h1 is rendered, so no
+empty gap appears. A detail page, whose title is the record's name, keeps a
+visible title.
+
+**A table that scrolls by itself: `Page fill` and `TableWrap fill`.** A list
+page puts its table straight in the page (no Card around it). `<Page fill>`
+is as tall as the main area; its children keep their natural height (a
+PageHead, a Banner is never squashed), and a `<TableWrap fill>` straight in it
+takes the rest and scrolls both ways by itself, so the main area does not
+scroll. Use it with `<Table stickyHead>` so the header row stays in view.
+
+```tsx
+<Page fill>
+  <PageHead title="Runs" hideTitle actions={<Button variant="primary">New run</Button>} />
+  <ErrorBanner error={error} />
+  <TableWrap fill>
+    <Table stickyHead>…</Table>
+  </TableWrap>
+</Page>
+```
+
 ### Card
 
 A raised box. `title` (an h2), `headActions` (right of the title), the body
@@ -269,8 +294,9 @@ wrap them in `<div className="hu-chip-row">`.
 
 ### Table, TableWrap, TableEmpty
 
-`TableWrap` is the bordered box (scrolls sideways when wide); `Table` the
-table, with `stickyHead` to keep the header in view. Write `thead`/`tbody`
+`TableWrap` is the bordered box (scrolls sideways when wide; `fill` in a
+`Page fill` takes the page's remaining height and scrolls both ways, see
+Page above); `Table` the table, with `stickyHead` to keep the header in view. Write `thead`/`tbody`
 yourself. Cell classes: `hu-num` (right-aligned figures), `hu-nowrap`. Row
 classes: `hu-row--clickable`, `hu-row--selected`. `TableEmpty colSpan={n}` is
 the "nothing here" row.
@@ -480,7 +506,7 @@ both columns of the kitchen sink).
 npm test         # components, tokens, house-ui-check
 npm run lint
 npm run build    # dist/: index.js, index.d.ts, house-ui.css
-./release.sh 1.2.0
+./release.sh 1.3.0
 ```
 
 A renamed class, removed prop or removed token is a breaking change and bumps

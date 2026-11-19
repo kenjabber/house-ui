@@ -5,6 +5,13 @@
     border-radius: var(--radius-md);
     background: var(--surface-raised);
   }
+  /* In a Page fill: takes the rest of the page's height and scrolls both
+     ways (with Table stickyHead the header stays in view). */
+  .hu-table-wrap--fill {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+  }
   .hu-table {
     width: 100%;
     border-collapse: collapse;

@@ -15,9 +15,17 @@ export function Table({ stickyHead, className, ...rest }: TableProps) {
   return <table className={cx('hu-table', stickyHead && 'hu-table--sticky', className)} {...rest} />
 }
 
+export interface TableWrapProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Fill the rest of a `<Page fill>` and scroll both ways by itself; use with
+   * `<Table stickyHead>` so the header stays in view.
+   */
+  fill?: boolean
+}
+
 /** The bordered box around a Table; scrolls sideways when the table is wide. */
-export function TableWrap({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cx('hu-table-wrap', className)} {...rest} />
+export function TableWrap({ fill, className, ...rest }: TableWrapProps) {
+  return <div className={cx('hu-table-wrap', fill && 'hu-table-wrap--fill', className)} {...rest} />
 }
 
 /** A tbody row saying the table is empty. */
