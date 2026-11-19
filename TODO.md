@@ -5,7 +5,6 @@ relative to `~/develop/house-ui` unless they start with `~`.
 
 | # | Item | Status |
 |---|------|--------|
-| 8 | [Inline controls: Input and Select as wide as their content](#8-inline-controls-input-and-select-as-wide-as-their-content) | ready to start |
 | 9 | [Card: sub-headings and space between body blocks](#9-card-sub-headings-and-space-between-body-blocks) | ready to start |
 | 10 | [Facts: skip empty items](#10-facts-skip-empty-items) | ready to start |
 | 11 | [Tabs that own a panel](#11-tabs-that-own-a-panel) | idea |
@@ -16,18 +15,6 @@ Next number: **13**.
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
 ---
-
-## 8. Inline controls: Input and Select as wide as their content
-
-`.hu-input` and `.hu-select` are `width: 100%`, right inside a `Field`, but
-a control in a row of others (a filter Select in `PageHead` actions or a
-Card's `headActions`, a short ref or tail Input beside buttons) stretches
-across the row. AppConfig adds its own `.inline-control { width: auto }`
-and inline widths (TODO 28).
-
-**Done when:** an `inline` prop (or a class house-ui documents) makes a
-control as wide as its content, shown on the kitchen sink in a PageHead and
-a card head.
 
 ## 9. Card: sub-headings and space between body blocks
 

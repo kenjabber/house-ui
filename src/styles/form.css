@@ -72,6 +72,12 @@
     font: inherit;
     font-size: var(--text-md);
   }
+  /* A control in a row of others: as wide as its content, not the row. */
+  .hu-input--inline,
+  .hu-select--inline {
+    width: auto;
+    flex: 0 0 auto;
+  }
   .hu-textarea {
     min-height: 5rem;
     font-family: var(--font-mono);

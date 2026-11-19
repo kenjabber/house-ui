@@ -82,16 +82,26 @@ export function FormActions({ className, ...rest }: HTMLAttributes<HTMLDivElemen
   return <div className={cx('hu-form-actions', className)} {...rest} />
 }
 
-export function Input({ className, ...rest }: InputHTMLAttributes<HTMLInputElement>) {
-  return <input className={cx(rest.type === 'checkbox' ? 'hu-checkbox' : 'hu-input', className)} {...rest} />
+/** For a control in a row of others (a filter in a PageHead or card head), not a Field. */
+interface InlineProp {
+  /** As wide as its content (or its `size`), not the row. */
+  inline?: boolean
+}
+
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & InlineProp
+export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & InlineProp
+
+export function Input({ className, inline, ...rest }: InputProps) {
+  const check = rest.type === 'checkbox'
+  return <input className={cx(check ? 'hu-checkbox' : 'hu-input', inline && !check && 'hu-input--inline', className)} {...rest} />
 }
 
 export function Checkbox({ className, ...rest }: Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>) {
   return <input type="checkbox" className={cx('hu-checkbox', className)} {...rest} />
 }
 
-export function Select({ className, ...rest }: SelectHTMLAttributes<HTMLSelectElement>) {
-  return <select className={cx('hu-select', className)} {...rest} />
+export function Select({ className, inline, ...rest }: SelectProps) {
+  return <select className={cx('hu-select', inline && 'hu-select--inline', className)} {...rest} />
 }
 
 export function Textarea({ className, ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement>) {

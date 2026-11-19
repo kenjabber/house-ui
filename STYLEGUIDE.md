@@ -336,6 +336,18 @@ list's accessible name). Arrow keys, Home and End move between tabs. Render
 the selected tab's content yourself; with `idPrefix`, wrap it in
 `<TabPanel idPrefix tabKey>` and the two are wired for screen readers.
 
+`Input` and `Select` fill their field. One in a row of other controls (a
+filter in a `PageHead`'s actions or a Card's `headActions`, a short Input
+beside buttons) takes `inline`: as wide as its content, or an Input's
+`size`.
+
+```tsx
+<PageHead title="Runs" actions={
+  <Select inline aria-label="kind" value={kind} onChange={…}>…</Select>
+} />
+<Input inline size={6} aria-label="tail" value={tail} onChange={…} />
+```
+
 ```tsx
 <Tabs label="Settings" idPrefix="settings" value={tab} onChange={setTab}
   tabs={[{ key: 'users', label: 'Users' }, { key: 'tokens', label: 'API tokens' }]} />

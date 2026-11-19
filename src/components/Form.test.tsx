@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Checkbox, Field, Input } from './Form'
+import { Checkbox, Field, Input, Select } from './Form'
 
 describe('Field', () => {
   it('labels the control and describes it with help and error', () => {
@@ -32,5 +32,25 @@ describe('Field', () => {
     )
     expect(container.firstChild).toHaveClass('hu-field', 'hu-field--check')
     expect(screen.getByLabelText('Deploy on push')).toHaveAttribute('type', 'checkbox')
+  })
+})
+
+describe('Input and Select', () => {
+  it('are as wide as their content with `inline`, and fill their field without it', () => {
+    render(
+      <>
+        <Input aria-label="ref" inline />
+        <Select aria-label="kind" inline>
+          <option>all</option>
+        </Select>
+        <Input aria-label="name" />
+        <Input type="checkbox" aria-label="on" inline />
+      </>,
+    )
+    expect(screen.getByRole('textbox', { name: 'ref' }).className).toBe('hu-input hu-input--inline')
+    expect(screen.getByRole('combobox', { name: 'kind' }).className).toBe('hu-select hu-select--inline')
+    expect(screen.getByRole('textbox', { name: 'name' }).className).toBe('hu-input')
+    expect(screen.getByRole('checkbox', { name: 'on' }).className).toBe('hu-checkbox')
+    expect(screen.getByRole('textbox', { name: 'ref' })).not.toHaveAttribute('inline')
   })
 })

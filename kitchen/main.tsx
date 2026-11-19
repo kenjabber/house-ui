@@ -571,6 +571,17 @@ function KitchenSink() {
                 }
               />
               <PageHead title="A title alone" />
+              <PageHead
+                title="Runs"
+                subtitle="An inline Select in the actions is as wide as its content."
+                actions={
+                  <Select inline aria-label="kind" defaultValue="">
+                    <option value="">all kinds</option>
+                    <option>deploy</option>
+                    <option>rollback</option>
+                  </Select>
+                }
+              />
               <Card title="Card with head actions" headActions={<Button sm>Edit</Button>}>
                 <p>The body.</p>
               </Card>
@@ -579,6 +590,21 @@ function KitchenSink() {
               </Card>
               <Card>
                 <p>A card with only a body.</p>
+              </Card>
+              <Card
+                title="Logs (inline controls in the head)"
+                headActions={
+                  <>
+                    <Select inline aria-label="service" defaultValue="">
+                      <option value="">all services</option>
+                      <option>backend</option>
+                    </Select>
+                    <Input inline size={6} aria-label="tail" defaultValue="200" />
+                    <Button sm>Refresh</Button>
+                  </>
+                }
+              >
+                <p className="hu-hint">The head's Select and Input stay their own width.</p>
               </Card>
             </div>
           )}

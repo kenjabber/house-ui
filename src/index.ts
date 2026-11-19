@@ -38,6 +38,8 @@ export {
   Select,
   Textarea,
   type FieldProps,
+  type InputProps,
+  type SelectProps,
 } from './components/Form'
 export { UserMenu, MenuItem, type UserMenuProps, type MenuItemProps } from './components/Menu'
 export { Tabs, TabPanel, type Tab, type TabsProps } from './components/Tabs'
