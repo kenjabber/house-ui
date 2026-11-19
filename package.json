@@ -1,0 +1,63 @@
+{
+  "name": "house-ui",
+  "version": "0.0.0",
+  "description": "The shared look and feel for Ken's web apps: design tokens, CSS and React components.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenjabber/house-ui.git"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./house-ui.css": "./dist/house-ui.css",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
+  "bin": {
+    "house-ui-check": "bin/house-ui-check.mjs"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "STYLEGUIDE.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "rm -rf dist && vite build && tsc -p tsconfig.build.json && node scripts/build-css.mjs",
+    "watch": "node scripts/watch.mjs",
+    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
+    "jsdom": "^25.0.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,20 @@
+src/App.css:1: global element rule `*` overrides house-ui's components; leave element defaults to its base.css
+src/App.css:4: global element rule `html` overrides house-ui's components; leave element defaults to its base.css
+src/App.css:4: global element rule `body` overrides house-ui's components; leave element defaults to its base.css
+src/App.css:9: global element rule `a:hover` overrides house-ui's components; leave element defaults to its base.css
+src/App.css:13: colour literal #fff in color; use a semantic token
+src/App.css:14: colour literal rgba() in background; use a semantic token
+src/App.css:15: uses palette token --color-slate-300; use a semantic token
+src/App.css:16: font-size 14px is not a --text-* token
+src/App.css:17: box-shadow is not a --shadow-* token
+src/App.css:19: rule styles house-ui's class .hu-btn; change house-ui instead
+src/App.css:20: font size in `font: 600 0.9rem/1.2 system-ui` is not a --text-* token
+src/App.css:23: defines palette token --color-brand; palette tokens are house-ui's
+src/App.css:24: colour literal #f00 in --app-bad; use a semantic token
+src/App.css:27: font-size large is not a --text-* token
+src/App.css:28: text-shadow is not a --shadow-* token
+src/components/Chart.tsx:5: colour literal #1e293b in an inline style; use a semantic token
+src/components/Chart.tsx:6: colour literal rgb() in an inline style; use a semantic token
+src/components/Chart.tsx:7: uses palette token --color-blue-500; use a semantic token
+src/components/Chart.tsx:11: colour literal in fill=; use currentColor or a semantic token
+src/components/Chart.tsx:11: colour literal in stroke=; use currentColor or a semantic token

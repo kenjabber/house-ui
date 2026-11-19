@@ -1,0 +1,309 @@
+/* AppShell, Sidebar, SidebarLink (PLAN D-10): NetConfig's and kwicky's grid
+   shell. Dark sidebar 240px, collapsing to 56px icons; main area with a
+   header and its own scroll. At 980px and below (a container query on the
+   shell, so it follows the shell's width: the viewport in an app, a frame on
+   the kitchen sink) the sidebar becomes an overlay opened from the header. */
+
+@layer house-ui {
+  .hu-shell-frame {
+    container: hu-shell / inline-size;
+    height: var(--hu-shell-height, var(--app-height));
+    overflow: hidden;
+  }
+
+  .hu-shell {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    /* One row that may shrink to 0, so each column scrolls on its own. */
+    grid-template-rows: minmax(0, 1fr);
+    height: 100%;
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
+    background: var(--surface-body);
+    overflow: hidden;
+  }
+  .hu-shell--collapsed {
+    grid-template-columns: var(--sidebar-width-collapsed) minmax(0, 1fr);
+  }
+
+  /* ── Sidebar ── */
+  .hu-sidebar {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--surface-sidebar);
+    color: var(--text-on-dark);
+    border-right: 1px solid var(--border-sidebar);
+  }
+  .hu-sidebar__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: 56px;
+    padding: var(--space-3) var(--space-4);
+    padding-top: max(var(--space-3), var(--safe-top));
+    border-bottom: 1px solid var(--border-sidebar);
+  }
+  .hu-sidebar__brand {
+    min-width: 0;
+    font-weight: 700;
+    color: var(--text-on-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hu-sidebar__toggle {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-on-dark-muted);
+    font-size: var(--text-lg);
+    line-height: 1;
+    cursor: pointer;
+  }
+  .hu-sidebar__toggle:hover {
+    color: var(--text-on-dark);
+    background: var(--surface-sidebar-hover);
+  }
+  .hu-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-2);
+    flex: 0 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .hu-sidebar__below {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--space-2) var(--space-3) calc(var(--space-3) + var(--safe-bottom));
+    border-top: 1px solid var(--border-sidebar);
+    color: var(--text-on-dark-muted);
+    font-size: var(--text-sm);
+  }
+
+  .hu-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: 40px;
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-on-dark-muted);
+    font: inherit;
+    font-size: var(--text-body);
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .hu-sidebar-link:hover:not(:disabled) {
+    background: var(--surface-sidebar-hover);
+    color: var(--text-on-dark);
+    text-decoration: none;
+  }
+  .hu-sidebar-link--active,
+  .hu-sidebar-link[aria-current="page"] {
+    background: var(--surface-sidebar-active);
+    color: var(--text-on-dark);
+    font-weight: 600;
+  }
+  .hu-sidebar-link:disabled {
+    opacity: var(--disabled-opacity);
+    cursor: default;
+  }
+  .hu-sidebar-link__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+  .hu-sidebar-link__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .hu-sidebar-link__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hu-sidebar-link__badge {
+    flex-shrink: 0;
+    padding: 1px 6px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-sidebar-badge);
+    color: var(--text-on-dark);
+    font-size: var(--text-micro);
+    font-weight: 600;
+  }
+
+  /* Collapsed: icons only. */
+  .hu-shell--collapsed .hu-sidebar__head {
+    justify-content: center;
+    padding-left: var(--space-1);
+    padding-right: var(--space-1);
+  }
+  .hu-shell--collapsed .hu-sidebar__brand {
+    display: none;
+  }
+  .hu-shell--collapsed .hu-sidebar-link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+    position: relative;
+  }
+  .hu-shell--collapsed .hu-sidebar-link__label,
+  .hu-shell--collapsed .hu-sidebar__below {
+    display: none;
+  }
+  .hu-shell--collapsed .hu-sidebar-link__badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 0 4px;
+  }
+
+  /* ── Main area ── */
+  .hu-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--surface-body);
+  }
+  .hu-main__header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 56px;
+    padding: var(--space-2) var(--space-5);
+    padding-top: max(var(--space-2), var(--safe-top));
+    background: var(--surface-raised);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .hu-main__menu {
+    display: none;
+  }
+  .hu-main__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: 650;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hu-main__right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .hu-main__content {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+    padding: var(--space-5);
+    padding-bottom: calc(var(--space-5) + var(--safe-bottom));
+  }
+
+  .hu-shell__scrim {
+    display: none;
+  }
+
+  /* ── Compact: the sidebar is an overlay ── */
+  @container hu-shell (max-width: 980px) {
+    .hu-shell,
+    .hu-shell--collapsed {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hu-sidebar {
+      position: absolute;
+      z-index: var(--z-overlay);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: min(var(--sidebar-width), 85%);
+      padding-left: var(--safe-left);
+      transform: translateX(-100%);
+      visibility: hidden;
+      transition: transform 0.18s ease, visibility 0.18s;
+    }
+    .hu-shell--nav-open .hu-sidebar {
+      transform: none;
+      visibility: visible;
+    }
+    .hu-shell--nav-open .hu-shell__scrim {
+      display: block;
+      position: absolute;
+      z-index: calc(var(--z-overlay) - 1);
+      inset: 0;
+      background: var(--surface-modal-overlay);
+    }
+    .hu-sidebar__toggle {
+      display: none;
+    }
+    /* The collapsed state does not apply to the overlay. */
+    .hu-shell--collapsed .hu-sidebar__head {
+      justify-content: space-between;
+      padding-left: var(--space-4);
+      padding-right: var(--space-4);
+    }
+    .hu-shell--collapsed .hu-sidebar__brand {
+      display: block;
+    }
+    .hu-shell--collapsed .hu-sidebar-link {
+      justify-content: flex-start;
+      padding-left: var(--space-3);
+      padding-right: var(--space-3);
+    }
+    .hu-shell--collapsed .hu-sidebar-link__label {
+      display: block;
+    }
+    .hu-shell--collapsed .hu-sidebar__below {
+      display: block;
+    }
+    .hu-shell--collapsed .hu-sidebar-link__badge {
+      position: static;
+      padding: 1px 6px;
+    }
+    .hu-main__menu {
+      display: inline-flex;
+      margin-left: calc(-1 * var(--space-2));
+    }
+    .hu-main__header {
+      padding-left: var(--space-4);
+      padding-right: var(--space-4);
+    }
+    .hu-main__content {
+      padding: var(--space-4);
+      padding-bottom: calc(var(--space-4) + var(--safe-bottom));
+    }
+  }
+}

@@ -1,0 +1,101 @@
+@layer house-ui {
+  .hu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: var(--input-height);
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: var(--text-md);
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .hu-btn:hover:not(:disabled) {
+    background: var(--surface-hover);
+    text-decoration: none;
+  }
+  .hu-btn:disabled {
+    opacity: var(--disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  .hu-btn--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+  .hu-btn--primary:hover:not(:disabled) {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .hu-btn--danger {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: var(--on-accent);
+  }
+  .hu-btn--danger:hover:not(:disabled) {
+    background: var(--danger-hover);
+    border-color: var(--danger-hover);
+  }
+
+  .hu-btn--ghost {
+    background: transparent;
+    border-color: transparent;
+  }
+  .hu-btn--ghost:hover:not(:disabled) {
+    background: var(--surface-hover);
+  }
+
+  .hu-btn--link {
+    min-height: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--text-blue);
+    font-weight: inherit;
+  }
+  .hu-btn--link:hover:not(:disabled) {
+    background: none;
+    text-decoration: underline;
+  }
+
+  .hu-btn--sm {
+    min-height: 0;
+    padding: 0.22rem 0.6rem;
+    font-size: var(--text-sm);
+  }
+
+  .hu-btn--icon {
+    width: var(--input-height);
+    padding: 0;
+  }
+  .hu-btn--icon.hu-btn--sm {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .hu-btn svg {
+    width: 1.1em;
+    height: 1.1em;
+    flex-shrink: 0;
+  }
+
+  @media (pointer: coarse) {
+    .hu-btn:not(.hu-btn--link) {
+      min-height: var(--touch-target-min);
+    }
+    .hu-btn--icon,
+    .hu-btn--icon.hu-btn--sm {
+      width: var(--touch-target-min);
+      height: var(--touch-target-min);
+    }
+  }
+}

@@ -1,0 +1,326 @@
+# house-ui style guide
+
+house-ui is the one look and feel for Ken's web apps (AppConfig, kwicky,
+NestEgg, NetConfig, stocker, and every new one). It ships design tokens, one
+stylesheet and React components. This guide is what an app's author, or a
+Claude session writing UI in an app, reads first. The decisions behind it are
+in [PLAN.md](PLAN.md) (D-n below).
+
+To see every component in light and dark: `npm run dev` in `~/develop/house-ui`,
+then <http://localhost:5673> (the kitchen sink).
+
+## The rules
+
+1. **Use house-ui's components and semantic tokens.** Write no colour, font
+   size or shadow literals and no palette (`--color-*`) tokens in app CSS or
+   inline styles (D-6, D-15). `house-ui-check` enforces this.
+2. **A style only this app needs** is an `--app-*` token in the app's
+   `app-tokens.css`, defined for light and dark (D-12). That file is the one
+   place palette tokens (and, if the palette lacks the colour, a literal) are
+   allowed. App CSS then uses `var(--app-…)`.
+3. **Something two apps would use belongs in house-ui** (D-12): add it here
+   (component, CSS, kitchen sink, this guide, a release), or note it in
+   house-ui's `TODO.md`, instead of styling it in the app (D-18).
+4. **Never style a `hu-` class from an app** (D-8). Change house-ui instead.
+5. **No global element rules in app CSS** (`*`, `body`, `button`, `input`,
+   `a:hover`, `h2`, …). house-ui's CSS is in `@layer house-ui` (D-19), and any
+   unlayered rule beats it, so an app's `* { padding: 0 }` would strip every
+   component's padding. Element defaults come from house-ui's base; scope
+   anything else under a class.
+6. **Status labels are `<Chip>` with one of five kinds** (D-11): `ok`, `warn`,
+   `bad`, `info`, `neutral`. Map the app's own states onto them.
+7. **Light and dark come from the tokens** (D-7). Use semantic tokens and dark
+   works with no extra CSS.
+
+## Installing it in an app
+
+```bash
+npm install https://github.com/kenjabber/house-ui/releases/download/v1.0.0/house-ui-1.0.0.tgz
+```
+
+`package.json` then pins that URL (D-3, D-4). In `main.tsx`, before the app's
+own CSS:
+
+```tsx
+import 'house-ui/house-ui.css'
+import './app-tokens.css'
+import './App.css'
+```
+
+In `index.html`, the viewport meta needs `viewport-fit=cover` for the
+safe-area insets, and `<meta name="color-scheme" content="light dark" />`.
+
+In `vite.config.ts`, so a linked working copy (below) does not load a second
+React (D-5):
+
+```ts
+resolve: { dedupe: ['react', 'react-dom'] },
+```
+
+In `package.json`, the check runs with the tests (D-17):
+
+```json
+"test": "house-ui-check src && vitest run"
+```
+
+**Upgrading** is a deliberate change in the app: install the new release URL,
+check the app, commit. A new major version means something was renamed or
+removed (D-18); read the release notes.
+
+**Changing house-ui while working in an app** (D-5):
+
+```bash
+cd ~/develop/house-ui && npm run watch
+```
+
+```bash
+cd ~/develop/<app>/frontend && npm link ../../house-ui
+```
+
+Before committing the app, run `npm install` there to put the pinned release
+back, and check that `package.json` still names the release URL.
+
+## Tokens
+
+All in `src/styles/tokens.css`. App CSS uses only the semantic ones.
+
+| Role | Tokens |
+|---|---|
+| Surfaces | `--surface-body` (page), `--surface-raised` (cards, header, inputs), `--surface-panel` (tab panels, form sections), `--surface-hover`, `--surface-sunken` (code, pre), `--surface-thead`, `--surface-sidebar`, `--surface-modal-overlay` |
+| Borders | `--border-subtle`, `--border-default`, `--border-sidebar` |
+| Text | `--text-primary`, `--text-secondary`, `--text-muted`, `--text-blue` (links), `--text-error`, `--text-error-strong`, `--text-on-dark`, `--text-on-dark-muted` |
+| Accent | `--accent`, `--accent-hover`, `--accent-soft`, `--accent-soft-border`, `--accent-soft-fg`, `--on-accent` |
+| Danger | `--danger`, `--danger-hover` |
+| Status | `--chip-{ok,warn,bad,info,neutral}-{bg,fg}` |
+| Diff | `--diff-add-bg`, `--diff-add-fg`, `--diff-del-bg`, `--diff-del-fg`, `--diff-hunk-fg` |
+| Shadows | `--shadow-card`, `--shadow-tab`, `--shadow-popover`, `--shadow-modal`, `--shadow-focus` (the focus ring) |
+| Type | `--font-sans`, `--font-mono`; sizes `--text-micro` · `xs` · `sm` · `base` · `md` (body) · `body` · `card` · `subhead` · `lg` · `xl` · `2xl` (page title) · `price`; `--text-input` (16px, touch) |
+| Space | `--space-1` … `--space-6` (0.25rem steps to 1.5rem) |
+| Radii | `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-pill` |
+| Controls | `--input-height`, `--input-height-touch` and `--touch-target-min` (44px), `--focus-ring-width`, `--disabled-opacity` |
+| Layout | `--sidebar-width` (240px), `--sidebar-width-collapsed` (56px), `--page-max-width`, `--app-height` and `--modal-max-height` (dynamic-viewport aware), `--safe-top` · `right` · `bottom` · `left`, `--z-overlay`, `--z-modal` |
+
+**Breakpoints.** CSS cannot use a custom property in `@media`, so write the
+number: **980px** is compact (one column; the sidebar becomes an overlay),
+**1280px** is tablet. `--bp-compact` and `--bp-tablet` hold the same values
+for reference.
+
+**Themes** (D-7). Dark follows the system setting. `data-theme="dark"` or
+`data-theme="light"` on any element forces that theme on it and everything
+inside; put it on `<html>` to add a theme switch to an app.
+
+**Palette** (`--color-slate-*`, `--color-blue-*`, `--color-green-*`,
+`--color-amber-*`, `--color-red-*`, `--color-purple-600`, `--color-white`) is
+house-ui's, for its semantic layer and for an app's `app-tokens.css`.
+
+## Components
+
+Import from `house-ui`:
+
+```tsx
+import { AppShell, Sidebar, SidebarLink, PageHead, Card, Button, Chip } from 'house-ui'
+```
+
+### AppShell, Sidebar, SidebarLink
+
+The layout of every app (D-10): a dark sidebar (240px, collapsing to 56px of
+icons), a main header, and the page, which scrolls on its own. At 980px and
+below the sidebar becomes an overlay opened by the header's menu button and
+closed by a link, the backdrop or Escape.
+
+| AppShell prop | |
+|---|---|
+| `sidebar` | A `<Sidebar>` |
+| `title` | The header's title, usually the section's name (not a heading; the page's h1 is its `PageHead`) |
+| `headerRight` | Settings button, user menu |
+| `children` | The page |
+| `collapsed`, `onCollapsedChange`, `defaultCollapsed` | Collapsed state, controlled or not |
+
+| Sidebar prop | |
+|---|---|
+| `brand` | The app's name |
+| `children` | `SidebarLink`s |
+| `below` | Anything under the links (a list of scenarios, a tree); hidden when collapsed |
+| `navLabel` | The nav's accessible name, default "Sections" |
+
+| SidebarLink prop | |
+|---|---|
+| `label` | Text, and the tooltip when collapsed |
+| `icon` | An inline SVG (house-ui has no icon set). Without one, the label's first letter shows when collapsed |
+| `badge` | A count |
+| `active` | The current section (a router `NavLink` marks itself) |
+| `as` | `"button"` (default), `"a"` with `href`, or a router link with its props |
+
+```tsx
+<AppShell
+  title={section.label}
+  headerRight={<UserMenu />}
+  sidebar={
+    <Sidebar brand="NetConfig">
+      <SidebarLink as={NavLink} to="/hosts" label="Hosts" icon={<HostsIcon />} badge={7} />
+      <SidebarLink as={NavLink} to="/domains" label="Domains" icon={<GlobeIcon />} />
+    </Sidebar>
+  }
+>
+  <Outlet />
+</AppShell>
+```
+
+`useShell()` gives a component inside the shell `collapsed`, `navOpen` and
+their setters.
+
+### Page, PageHead
+
+`Page` centres the content at `--page-max-width` with even gaps. `PageHead`
+is the top of a page: `title` (the h1), `subtitle`, `actions` (they wrap
+under the title when narrow).
+
+```tsx
+<Page>
+  <PageHead title="Hosts" subtitle="Every host NetConfig knows about." actions={<Button variant="primary">Add host</Button>} />
+  <Card title="…">…</Card>
+</Page>
+```
+
+### Card
+
+A raised box. `title` (an h2), `headActions` (right of the title), the body
+as children, `actions` (a right-aligned row under the body).
+
+```tsx
+<Card title="Backups" headActions={<Button sm>Run now</Button>} actions={<Button variant="primary">Save</Button>}>
+  …
+</Card>
+```
+
+### Button
+
+`variant`: `primary` (one per view, the main action), `secondary` (default),
+`danger` (destroys something), `ghost` (toolbar, header icons), `link` (inline,
+looks like a link). `sm` for tables and card heads. `icon` for a square
+icon-only button, which needs an `aria-label`. `type` defaults to `"button"`;
+pass `type="submit"` in a form.
+
+```tsx
+<Button variant="ghost" icon aria-label="Settings"><GearIcon /></Button>
+```
+
+### Chip
+
+`kind`: `ok`, `warn`, `bad`, `info`, `neutral` (default). Several in a row:
+wrap them in `<div className="hu-chip-row">`.
+
+```tsx
+<Chip kind={host.up ? 'ok' : 'bad'}>{host.up ? 'Up' : 'Down'}</Chip>
+```
+
+### Table, TableWrap, TableEmpty
+
+`TableWrap` is the bordered box (scrolls sideways when wide); `Table` the
+table, with `stickyHead` to keep the header in view. Write `thead`/`tbody`
+yourself. Cell classes: `hu-num` (right-aligned figures), `hu-nowrap`. Row
+classes: `hu-row--clickable`, `hu-row--selected`. `TableEmpty colSpan={n}` is
+the "nothing here" row.
+
+### TableFilter, useTableFilter, chipValue
+
+kwicky's filter bar for any table: a box that keeps the rows containing every
+typed word, a count, Show all, and per chip column one on/off chip per value
+with its count (shift-click shows only that value).
+
+```tsx
+const filter = useTableFilter(hosts, {
+  text: (h) => `${h.name} ${h.server} ${h.status}`,
+  chips: [{ name: 'Status', value: (h) => chipValue(h.status) }],
+})
+return (
+  <>
+    <TableFilter filter={filter} />
+    <TableWrap><Table>…{filter.visible.map(…)}…</Table></TableWrap>
+  </>
+)
+```
+
+Values are grouped regardless of case. `chipValue` drops a bracketed note, so
+"needs Ken (the token)" groups with "needs Ken". `TableFilter` also takes
+`placeholder` and `noun` ("rows"). For rows that are DOM elements (kwicky's
+rendered markdown), pass them to `useTableFilter` and show or hide them from
+`filter.visible`.
+
+### Modal
+
+A dialog over the page: `title`, `onClose` (Escape, ×, backdrop), `children`,
+`footer` (buttons, right-aligned), `wide` (820px instead of 460px),
+`closeOnBackdrop` (default true; turn off for a form that would lose input).
+Focus moves in (to an element with `autoFocus`, or the dialog), Tab stays
+inside, and focus returns on close. Its height follows the dynamic viewport.
+
+```tsx
+{confirming && (
+  <Modal title="Delete kwicky?" onClose={() => setConfirming(false)}
+    footer={<><Button onClick={() => setConfirming(false)}>Cancel</Button><Button variant="danger" onClick={del}>Delete</Button></>}>
+    This removes the app's containers. Its data volume is kept.
+  </Modal>
+)}
+```
+
+### Field, FormGrid, FormActions, Input, Select, Textarea, Checkbox
+
+`Field` wraps one control with its `label`, `help` and `error`: the label
+points at the control, help and error describe it, and an error marks it
+invalid. `required` adds the marker; `wide` spans every column of a
+`FormGrid`. A `Checkbox` gets its label beside it. `FormGrid` fits as many
+220px columns as there is room for; `FormActions` is the button row under a
+form. The controls are the native elements with house-ui's look: 44px tall
+and 16px text on touch screens.
+
+```tsx
+<FormGrid>
+  <Field label="Name" help="Letters, digits and dashes." required>
+    <Input value={name} onChange={(e) => setName(e.target.value)} required />
+  </Field>
+  <Field label="Port" error={portError}>
+    <Input type="number" value={port} onChange={…} />
+  </Field>
+  <Field label="Deploy on push">
+    <Checkbox checked={auto} onChange={…} />
+  </Field>
+</FormGrid>
+<FormActions><Button type="submit" variant="primary">Save</Button></FormActions>
+```
+
+### Base and helpers
+
+`house-ui.css` also sets element defaults (body, headings, links, `code`,
+`pre`, focus ring, scrollbars) and a few helper classes: `hu-muted`,
+`hu-hint`, `hu-mono`, `hu-row` (a wrapping row with a gap), `hu-stack` (a
+column with a gap), `hu-visually-hidden`.
+
+## house-ui-check
+
+```bash
+npx house-ui-check src
+```
+
+Reports `file:line: problem` for colour literals, font sizes not from a
+`--text-*` token, shadows not from a `--shadow-*` token, palette tokens used
+or defined, rules styling `hu-` classes, and global element rules. It skips
+`app-tokens.css`, tests, `node_modules` and `dist`. No output and exit 0 means
+clean.
+
+## Changing house-ui
+
+A change is made here first (D-18): the component and its CSS, its section
+on the kitchen sink, this guide, then a release. Every CSS file stays inside
+`@layer house-ui { … }`, uses semantic tokens, and works in both themes (check
+both columns of the kitchen sink).
+
+```bash
+npm test         # components, tokens, house-ui-check
+npm run lint
+npm run build    # dist/: index.js, index.d.ts, house-ui.css
+./release.sh 1.1.0
+```
+
+A renamed class, removed prop or removed token is a breaking change and bumps
+the major version.

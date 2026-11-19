@@ -18,26 +18,24 @@ Next number: **6**.
 
 ## 2. Build house-ui v1.0.0
 
-PLAN.md §7 steps 1–4: package skeleton, tokens and base CSS, the D-9
-components with the kitchen sink, `house-ui-check`, `STYLEGUIDE.md`,
-`release.sh`. Sources to lift from: tokens from
-`~/develop/appconfig/frontend/src/tokens.css`; the sidebar shell from
-`~/develop/netconfig/frontend/src/App.css` (`.app-shell`, `.sidebar*`); the
-table filter from `~/develop/kwicky/frontend/src/App.css` (`.table-filter*`);
-chips, cards, modal and buttons from AppConfig's `App.css`. NetConfig's and
-kwicky's `App.css` each have two `.app-shell` rules: an old flex one from
-stocker near the top (NetConfig line 23, kwicky line 17) and the grid one
-later (NetConfig line 2640, kwicky line 592). Take the grid one. Follow
-D-19 (`@layer house-ui`) and D-20 (package shape) from the first commit.
-The repo is private until the release (D-21): just before uploading
-`v1.0.0`, check that no file or commit holds a secret, hostname or address,
-ask Ken to confirm, then
-`gh repo edit kenjabber/house-ui --visibility public --accept-visibility-change-consequences`.
+PLAN.md §7 steps 1–4. Built: the package (D-20), tokens and base CSS in
+`@layer house-ui` (D-19), every D-9 component with tests, the kitchen sink
+(`npm run dev`, light and dark side by side), `house-ui-check` with its
+fixture tests, `STYLEGUIDE.md`, `release.sh`. `house-ui-check` run against
+the five apps on 2026-11-18 listed 139 problems in NestEgg, 139 in AppConfig,
+198 in kwicky, 458 in NetConfig and 322 in stocker, mostly palette-token
+uses and colour literals, plus each app's global element rules.
 
-**Done when:** the kitchen sink shows every D-9 component in light and dark
-side by side (D-7's `data-theme`), `house-ui-check` passes its own fixture
-tests and, run against each of the five apps, lists their current literals,
-the repo is public, and `v1.0.0` is tagged with its `.tgz` on the GitHub Release.
+What is left is the release itself:
+
+1. The repo is private until now (D-21). Check that no file or commit holds a
+   secret, hostname or address, ask Ken to confirm, then
+   `gh repo edit kenjabber/house-ui --visibility public --accept-visibility-change-consequences`.
+2. `./release.sh --dry-run 1.0.0`, then `./release.sh 1.0.0`. It refuses
+   while the repo is private.
+
+**Done when:** the repo is public and `v1.0.0` is tagged with its `.tgz` on
+the GitHub Release, downloadable without credentials (`release.sh` checks).
 
 ## 3. The rule in Ken's ~/.claude/CLAUDE.md
 

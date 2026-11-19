@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+a:hover {
+  text-decoration: underline;
+}
+.btn {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--color-slate-300);
+  font-size: 14px;
+  box-shadow: 0 1px 2px var(--shadow-color);
+}
+.page .hu-btn {
+  font: 600 0.9rem/1.2 system-ui;
+}
+:root {
+  --color-brand: hsl(200 50% 50%);
+  --app-bad: #f00;
+}
+.title {
+  font-size: large;
+  text-shadow: var(--shadow-card), 1px 1px red;
+}

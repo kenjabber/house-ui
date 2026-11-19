@@ -1,0 +1,12 @@
+/* The whole stylesheet, in order. scripts/build-css.mjs inlines these
+   @imports into dist/house-ui.css; the kitchen sink imports this file. */
+@import "./tokens.css";
+@import "./base.css";
+@import "./button.css";
+@import "./chip.css";
+@import "./card.css";
+@import "./shell.css";
+@import "./table.css";
+@import "./table-filter.css";
+@import "./modal.css";
+@import "./form.css";

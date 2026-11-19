@@ -1,0 +1,5 @@
+/* Skipped by the check: the one file allowed palette tokens and literals. */
+:root {
+  --app-buy: var(--color-green-700);
+  --app-sma: #7c3aed;
+}

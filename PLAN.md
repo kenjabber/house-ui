@@ -43,8 +43,8 @@ Implementation starts at the build order (§7).
   the same, and a changed byte fails the lockfile's integrity check in
   `npm ci`.
 - **D-5** **Local development uses `npm link`.** To change house-ui while
-  working in an app, link the app to the working copy and run house-ui's
-  watch build (the link resolves to `dist/`). Each app's `vite.config.ts` has
+  working in an app, link the app to the working copy and run
+  `npm run watch` in house-ui (the link resolves to `dist/`). Each app's `vite.config.ts` has
   `resolve.dedupe: ['react', 'react-dom']`, or the linked package loads a
   second React and hooks fail. Unlink and pin a release before the app's
   change is committed.
@@ -53,7 +53,8 @@ Implementation starts at the build order (§7).
   before the app's own CSS; component JS does not import CSS. `package.json`
   has an `exports` map (`.` for the components, `./house-ui.css`),
   `"sideEffects": ["*.css"]`, `bin` for `house-ui-check`, and a `files` list
-  of `dist/` and `bin/` only (the kitchen sink is not shipped).
+  of `dist/`, `bin/` and `STYLEGUIDE.md` only (the kitchen sink is not
+  shipped).
 - **D-21** **The GitHub repo is public from v1.0.0.** Apps are built in
   Docker on the servers, where `npm ci` downloads the pinned release file;
   a private repo's file needs a token in every build (a vault item, an
@@ -87,6 +88,10 @@ Implementation starts at the build order (§7).
   defaults (body, headings, links) do not restyle screens that have not moved
   yet, and an app never needs `!important` or doubled selectors to win.
   Tokens are custom properties on `:root`, so layering does not hide them.
+  The other side of this: an app's own global element rules (`* { padding:
+  0 }`, `button { … }`, `input { … }`, which every app has today) beat
+  house-ui's classes too, so they go in the retrofit and `house-ui-check`
+  flags them (D-17).
 - **D-9** **Components** (React, each with its CSS):
   - `AppShell` — the sidebar layout of D-10, with a main header slot
     (`headerRight` for the user menu).
@@ -106,10 +111,12 @@ Implementation starts at the build order (§7).
     focus ring, scrollbars.
 - **D-10** **Layout: the sidebar shell.** NetConfig's and kwicky's (their
   CSS is identical): dark sidebar 240 px wide, collapsing to 56 px icons, main
-  area with a header and its own scroll. At 980 px wide and below (the value
-  of `--bp-compact`, written as a number in each `@media` because a custom
-  property cannot be used in a media query) the sidebar becomes an overlay
-  opened from the header. The sidebar takes any content below its links.
+  area with a header and its own scroll. When the shell is 980 px wide or
+  less (a container query on the shell, so the kitchen sink can show it in a
+  narrow frame; `--bp-compact` holds the value, written as a number because a
+  custom property cannot be used in a query) the sidebar becomes an overlay
+  opened from the header. The header's title is the section's name, not a
+  heading; the page's h1 is its `PageHead`. The sidebar takes any content below its links.
   Apps on a top nav (AppConfig, NestEgg) move to it; so does stocker, whose
   collapsible scenario pane (`.ticker-explorer`) beside a `main-header` is
   not a nav sidebar (where that pane goes is TODO 5).
@@ -153,8 +160,9 @@ Implementation starts at the build order (§7).
 - **D-17** **`house-ui-check`** — a dependency-free Node script shipped as the
   package's `bin`. Given an app's `frontend/src`, it reports `file:line:
   problem` for: hex/`rgb()`/`hsl()` colour literals, font sizes and shadows
-  not from tokens, `--color-*` uses, inline `style` colours in TSX, and rules
-  that redefine `hu-` classes. It skips `app-tokens.css` (D-12). Exit 0 and
+  not from tokens, `--color-*` uses and definitions, inline `style` and SVG
+  `fill`/`stroke` colours in TSX, rules that redefine `hu-` classes, and
+  global element rules (D-19). It skips `app-tokens.css` (D-12) and tests. Exit 0 and
   no output when clean. Each app runs it from `npm test`
   (`"test": "house-ui-check src && vitest run"`), so the working agreement's
   test step catches drift. Its own tests are fixture files, one per problem

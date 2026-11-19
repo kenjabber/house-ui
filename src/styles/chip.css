@@ -1,0 +1,36 @@
+@layer house-ui {
+  .hu-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.08rem 0.5rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+    background: var(--chip-neutral-bg);
+    color: var(--chip-neutral-fg);
+  }
+  .hu-chip--ok {
+    background: var(--chip-ok-bg);
+    color: var(--chip-ok-fg);
+  }
+  .hu-chip--warn {
+    background: var(--chip-warn-bg);
+    color: var(--chip-warn-fg);
+  }
+  .hu-chip--bad {
+    background: var(--chip-bad-bg);
+    color: var(--chip-bad-fg);
+  }
+  .hu-chip--info {
+    background: var(--chip-info-bg);
+    color: var(--chip-info-fg);
+  }
+  .hu-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+}

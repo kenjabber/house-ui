@@ -1,0 +1,37 @@
+/* A clean app stylesheet: semantic tokens only. Colours in comments #fff don't count. */
+.app-page {
+  color: var(--text-primary);
+  background: var(--surface-body);
+  font-size: var(--text-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  --app-gap: var(--space-3);
+}
+.app-page h2,
+.app-page :is(h3, h4) {
+  font-size: 1.1em;
+  text-shadow: none;
+}
+.app-chart::before {
+  content: "#1";
+  background: url(#pattern);
+}
+#root .app-x {
+  font: inherit;
+}
+@media (max-width: 980px) {
+  .app-page {
+    padding: var(--space-2);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+:root {
+  --app-sidebar-extra: 12px;
+}
