@@ -6,10 +6,10 @@ relative to `~/develop/house-ui` unless they start with `~`.
 | # | Item | Status |
 |---|------|--------|
 | 3 | [The rule in Ken's ~/.claude/CLAUDE.md](#3-the-rule-in-kens-claudeclaudemd) | needs Ken (his file; the text is below) |
-| 4 | [File a retrofit item in each app's backlog](#4-file-a-retrofit-item-in-each-apps-backlog) | ready to start |
 | 5 | [Where stocker's scenario pane goes in AppShell](#5-where-stockers-scenario-pane-goes-in-appshell) | needs Ken (default: in the sidebar, below its links) |
+| 6 | [The shared pieces v1.0.0 lacks](#6-the-shared-pieces-v100-lacks) | ready to start |
 
-Next number: **6**.
+Next number: **7**.
 
 **Status key:** the shared one (`~/develop/backlog/TODO-FORMAT.md`).
 
@@ -33,25 +33,6 @@ into house-ui, not into the app.
 
 **Done when:** the section is in `~/.claude/CLAUDE.md`.
 
-## 4. File a retrofit item in each app's backlog
-
-v1.0.0 is released (2026-11-18). Add one item to each app's backlog for its
-move to house-ui (PLAN.md §7 step 5 lists what a retrofit includes and the
-order; STYLEGUIDE.md "Installing it in an app" the steps):
-`~/develop/nestegg/TODO.md`, `~/develop/appconfig/TODO.md`,
-`~/develop/kwicky/TODO.md`, `~/develop/netconfig/TODO.md`,
-`~/develop/stocker/docs/todo.md`.
-Each item names the app's own status mapping onto the five chip kinds
-(D-11), its app-only tokens (D-12), and what `house-ui-check src` (run in the
-app's `frontend/`) reports for it. On 2026-11-18 that was 139 problems in
-NestEgg, 139 in AppConfig, 198 in kwicky, 458 in NetConfig and 322 in
-stocker: mostly palette-token uses and colour literals, plus each app's
-global element rules (`*`, `body`, `input`, …), which must go first because
-they override house-ui's layered CSS (D-19). Run `check-todo.py` on each
-file.
-
-**Done when:** all five backlogs have their retrofit item.
-
 ## 5. Where stocker's scenario pane goes in AppShell
 
 stocker has no nav sidebar. Its `Dashboard.tsx` renders `.app-shell` with a
@@ -70,3 +51,25 @@ sidebar next to that pane: two left columns.
 
 **Done when:** Ken has chosen, D-10 records the choice, and stocker's
 retrofit item (item 4) names it.
+
+## 6. The shared pieces v1.0.0 lacks
+
+Surveying the five apps for their retrofit items (2026-11-18) found pieces
+two or more apps have that house-ui v1.0.0 does not. By D-12 they belong
+here; each app keeps its own copy until they are (each retrofit item says
+so).
+
+| Piece | Apps today |
+|---|---|
+| User menu and the header's gear button (`TitleBar.tsx`, `.user-menu*`, `.gear-btn`) | all five |
+| Settings tabs (`.settings-tab*` in each `SettingsModal`) | all five |
+| Info button and its note (`InfoButton.tsx`, `.info-btn`) | kwicky, NetConfig, AppConfig |
+| Banners (`.banner-*`, `ErrorBanner`, `Warnings`) | AppConfig, NestEgg (kwicky's callouts are close) |
+| `Loading`, `ConfirmButton` | AppConfig, NestEgg |
+| Definition list of facts (`.facts`) | AppConfig, NestEgg |
+
+Each one as D-18 says: component and CSS, a kitchen-sink section,
+STYLEGUIDE.md, tests. Then release `v1.1.0` and say so in each app's
+retrofit item if it is still open.
+
+**Done when:** `v1.1.0` is released with these pieces.
