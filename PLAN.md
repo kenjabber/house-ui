@@ -61,9 +61,10 @@ Implementation starts at the build order (§7).
   AppConfig build-secret feature, a download step in each Dockerfile, and
   renewal). house-ui holds only styling and generic components, nothing
   about the network or its data, so it is public and the download needs no
-  credentials. Until `v1.0.0` nothing downloads it, so it stays private; the
-  switch is made just before the first release is uploaded. Never put a
-  secret, hostname or address in this repo.
+  credentials. It was private until `v1.0.0` and made public on 2026-11-18,
+  just before that release. Never put a secret, hostname or address in this
+  repo; commits use Ken's GitHub noreply email (set in the repo's git
+  config), not his own address.
 
 ## 3. What is in it
 
