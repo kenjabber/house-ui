@@ -582,7 +582,10 @@ is `cond && [label, value]`.
 ### InfoButton
 
 The "?" beside a title: `title` (it reads "About <title>") and the note as
-children. A click opens the note (above or below, wherever there is room,
+children. It is a superscript to the title (D-23): a small "?" in a tight
+circle, raised, so it marks the title without competing with it; on a
+touch screen it keeps a finger-sized target. Put it right after the title,
+with no style of its own. A click opens the note (above or below, wherever there is room,
 in the theme around the button); a second click, Escape or a click elsewhere
 closes it.
 

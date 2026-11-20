@@ -193,6 +193,13 @@ Implementation starts at the build order (§7).
   `TableWrap fill` is as tall as its rows (a short list stops after its
   last row), grows with them to the bottom of the page, then scrolls
   inside; it never stretches an empty frame to the bottom.
+- **D-23** **The "?" is a superscript** (2026-11-19, Ken; v1.12.0). The
+  InfoButton was a 1.5rem circle with a base-size "?", centred on its
+  title's line, as loud as the title. It is now `--text-xs` in a 1rem
+  circle, raised by a relative offset (`top: -0.45em`, which works in a
+  flex row and in running text alike), for every disclosure button; on
+  a coarse pointer an invisible `::after` keeps the target
+  `--touch-target-min` wide.
 
 ## 7. Build order
 
