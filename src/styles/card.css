@@ -11,10 +11,13 @@
      keep their height, and a fill child takes the rest and scrolls by
      itself, so the main area does not. A TableWrap fill (and a Card fill
      around one) is as tall as its rows and grows only up to the rest; a
-     .hu-fill or a Card fill with a .hu-fill always takes all of it. */
+     .hu-fill or a Card fill with a .hu-fill always takes all of it.
+     It is as wide as the main area too (D-22): a list or a list-and-form
+     wants the width, and --page-max-width is for pages of cards and text. */
   .hu-page--fill {
     height: 100%;
     min-height: 0;
+    max-width: none;
   }
   .hu-page--fill > * {
     flex-shrink: 0;

@@ -184,6 +184,15 @@ Implementation starts at the build order (§7).
   kitchen sink, `STYLEGUIDE.md`, a release. Then each app that wants it bumps
   its pin. Breaking changes (renamed class, removed prop or token) bump the
   major version.
+- **D-22** **A fill page is full width and its table hugs its rows**
+  (2026-11-19, Ken; v1.9.0, v1.10.0). `--page-max-width` (1200px, from the
+  first commit with no recorded reason) keeps a page of cards and text to
+  a readable column; a `Page fill` — a list page, or a card that fills the
+  page — takes the main area's full width, since a wide table capped at
+  1200px scrolls sideways on a screen that has room for it. A
+  `TableWrap fill` is as tall as its rows (a short list stops after its
+  last row), grows with them to the bottom of the page, then scrolls
+  inside; it never stretches an empty frame to the bottom.
 
 ## 7. Build order
 

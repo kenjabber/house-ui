@@ -222,7 +222,9 @@ there, or make it able to shrink.
 
 ### Page, PageHead
 
-`Page` centres the content at `--page-max-width` with even gaps. `PageHead`
+`Page` centres the content at `--page-max-width` with even gaps; a
+`Page fill` (a list page, a card that fills the page) takes the main area's
+full width instead, so a wide table does not scroll sideways early. `PageHead`
 is the top of a page: `title` (the h1), `subtitle`, `actions` (they wrap
 under the title when narrow).
 

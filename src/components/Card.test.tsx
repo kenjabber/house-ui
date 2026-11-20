@@ -52,6 +52,10 @@ describe('card.css fill rules', () => {
     return css.slice(css.indexOf('{', at), css.indexOf('}', at))
   }
 
+  it('a fill page is as wide as the main area (D-22)', () => {
+    expect(rule('.hu-page--fill {')).toMatch(/max-width: none/)
+  })
+
   it('the page lets a fill card and a .hu-fill take the rest', () => {
     const r = rule('.hu-page--fill > .hu-card--fill,\n  .hu-page--fill > .hu-fill {')
     expect(r).toMatch(/flex: 1 1 auto/)
