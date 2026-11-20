@@ -212,6 +212,13 @@ Implementation starts at the build order (§7).
   date and time in the browser's time zone and locale; a timestamp without
   an offset is UTC (what the backends store), a bare date stays its day.
   `house-ui-check` reports dates formatted by hand.
+- **D-26** **The sidebar's links reach its bottom** (2026-11-19, Ken;
+  v1.15.0). The links were capped at 60% of the sidebar's height, which
+  leaves room for a `below` area (kwicky's page tree). Without one, the
+  cap left an empty strip and made a long list (NetConfig's eleven
+  entries) scroll on a short window. A nav with nothing below it now runs
+  to the bottom and scrolls only when the links do not fit; with `below`,
+  the 60% split stays.
 
 ## 7. Build order
 

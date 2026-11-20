@@ -140,7 +140,7 @@ closed by a link, the backdrop or Escape.
 |---|---|
 | `brand` | The app's name |
 | `children` | `SidebarLink`s |
-| `below` | Anything under the links, usually `SidebarSection`s (stocker's scenarios, kwicky's site tree); hidden when collapsed |
+| `below` | Anything under the links, usually `SidebarSection`s (stocker's scenarios, kwicky's site tree); hidden when collapsed. With `below` the links take up to 60% of the sidebar's height and `below` the rest; without it the links run to the bottom (D-26). Either part scrolls only when it does not fit |
 | `navLabel` | The nav's accessible name, default "Sections" |
 
 | SidebarLink prop | |

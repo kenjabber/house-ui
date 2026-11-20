@@ -85,6 +85,15 @@
     max-height: 60%;
     overflow-y: auto;
   }
+  /* With nothing below them (no `below`), the links have the whole height
+     down to the bottom of the sidebar and scroll only when they do not fit
+     in it (D-26). */
+  .hu-sidebar__nav:last-child {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    padding-bottom: calc(var(--space-2) + var(--safe-bottom));
+  }
   .hu-sidebar__below {
     flex: 1 1 auto;
     min-height: 0;
