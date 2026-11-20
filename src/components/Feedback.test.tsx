@@ -31,6 +31,18 @@ describe('Loading', () => {
 })
 
 describe('ConfirmButton', () => {
+  it('takes an accessible name for a row of several', () => {
+    render(
+      <>
+        <ConfirmButton label="Delete" aria-label="delete Alex" title="Delete Alex?" message="m" danger onConfirm={() => {}} />
+        <ConfirmButton label="Delete" aria-label="delete Sam" title="Delete Sam?" message="m" danger onConfirm={() => {}} />
+      </>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'delete Sam' }))
+    expect(screen.getByRole('dialog', { name: 'Delete Sam?' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Delete' }).closest('[role="dialog"]')).not.toBeNull()
+  })
+
   it('asks first and runs on yes only', () => {
     let ran = 0
     render(<ConfirmButton label="Delete" title="Delete kwicky?" message="Gone for good." danger onConfirm={() => ran++} />)

@@ -580,7 +580,8 @@ export const ErrorBanner = ({ error }: { error: unknown }) => (error ? <Banner k
 A button that asks first, in a Modal, and runs `onConfirm` on yes: `label`,
 `title`, `message`, `confirmLabel`, `danger` (a `ghost-danger` button, a red
 confirm), `sm`,
-`disabled`.
+`disabled`, and `aria-label` when the label is not enough: each row's Delete
+in a table names its row (`aria-label="delete Alex"`).
 
 ```tsx
 <ConfirmButton label="Delete" title={`Delete ${app.name}?`} message="Its data volume is kept." danger onConfirm={del} />

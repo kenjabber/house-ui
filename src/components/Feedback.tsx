@@ -62,6 +62,12 @@ export interface ConfirmButtonProps {
   danger?: boolean
   disabled?: boolean
   sm?: boolean
+  /**
+   * The button's accessible name when its label is not enough: each row's
+   * Delete in a table says which row ("delete Alex"). The dialog's confirm
+   * button keeps the label.
+   */
+  'aria-label'?: string
   className?: string
 }
 
@@ -75,6 +81,7 @@ export function ConfirmButton({
   danger,
   disabled,
   sm,
+  'aria-label': ariaLabel,
   className,
 }: ConfirmButtonProps) {
   const [open, setOpen] = useState(false)
@@ -84,6 +91,7 @@ export function ConfirmButton({
         variant={danger ? 'ghost-danger' : 'secondary'}
         sm={sm}
         disabled={disabled}
+        aria-label={ariaLabel}
         className={className}
         onClick={() => setOpen(true)}
       >
