@@ -200,6 +200,12 @@ Implementation starts at the build order (§7).
   flex row and in running text alike), for every disclosure button; on
   a coarse pointer an invisible `::after` keeps the target
   `--touch-target-min` wide.
+- **D-24** **A tab's underline lines up with its label** (2026-11-19, Ken;
+  v1.13.0). It was the button's bottom border, so it ran 0.8rem past the
+  text on each side and stopped short of a tab's "?" (outside the button).
+  It is now a 2px line drawn under the label only — the text, and on a tab
+  with `info` the text and its "?" (`--info-size`) — so its ends meet the
+  ends of what it marks. `PanelTabs` keep their joined-panel look.
 
 ## 7. Build order
 

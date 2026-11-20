@@ -103,6 +103,7 @@
     --touch-target-min:   2.75rem;
     --focus-ring-width:   3px;
     --disabled-opacity:   0.55;
+    --info-size:          1rem;     /* the InfoButton's circle (D-23) */
 
     /* ── Layout ── */
     --sidebar-width:           240px;

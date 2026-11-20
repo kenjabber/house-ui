@@ -80,8 +80,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1rem;
-    height: 1rem;
+    width: var(--info-size);
+    height: var(--info-size);
     padding: 0;
     border: 1px solid var(--border-default);
     border-radius: var(--radius-pill);
@@ -99,7 +99,7 @@
     .hu-info-btn::after {
       content: "";
       position: absolute;
-      inset: calc((var(--touch-target-min) - 1rem) / -2);
+      inset: calc((var(--touch-target-min) - var(--info-size)) / -2);
     }
   }
   .hu-info-btn:hover,
