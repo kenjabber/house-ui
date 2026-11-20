@@ -19,6 +19,8 @@ Checks an app's frontend source (default: src) against house-ui's rules:
   - palette tokens (--color-*) used or defined outside app-tokens.css
   - rules that style house-ui's hu- classes
   - global element rules (*, button, input, a, ...) that override house-ui
+  - dates and times formatted by hand (toLocaleDateString, a stored
+    timestamp cut with .replace("T", " ")): use DateTime / formatDateTime
 Prints file:line: problem per problem and exits 1, or nothing and exits 0.`
 
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.git'])
@@ -182,6 +184,14 @@ function checkDeclaration(prop, value, line, report) {
 // ── TS / TSX ──
 
 const STYLE_START = /\bstyle\s*=\s*\{\s*\{/g
+// Dates by hand (D-25): toLocaleDateString / toLocaleTimeString (always a
+// date), new Date(...).toLocaleString (a number's toLocaleString is fine),
+// and a stored timestamp cut to text with .replace("T", " ").
+const DATE_BY_HAND = [
+  /\.toLocale(?:Date|Time)String\(/g,
+  /new Date\([^)]*\)\s*\.toLocaleString\(/g,
+  /\.replace\(\s*["'`]T["'`]\s*,\s*["'`] ["'`]\s*\)/g,
+]
 const COLOUR_ATTR = /\b(fill|stroke|color|stopColor|floodColor|lightingColor)\s*=\s*\{?\s*["'`]\s*(#[0-9a-f]{3,8}\b|(?:rgba?|hsla?)\()/gi
 
 function checkScript(text, report) {
@@ -208,6 +218,11 @@ function checkScript(text, report) {
   }
   for (const m of text.matchAll(/var\(\s*(--color-[\w-]+)/g)) {
     report(lineAt(text, m.index), `uses palette token ${m[1]}; use a semantic token`)
+  }
+  for (const re of DATE_BY_HAND) {
+    for (const m of text.matchAll(re)) {
+      report(lineAt(text, m.index), `date formatted by hand; use house-ui's DateTime or formatDateTime (the viewer's time zone)`)
+    }
   }
 }
 

@@ -206,6 +206,12 @@ Implementation starts at the build order (§7).
   It is now a 2px line drawn under the label only — the text, and on a tab
   with `info` the text and its "?" (`--info-size`) — so its ends meet the
   ends of what it marks. `PanelTabs` keep their joined-panel look.
+- **D-25** **Dates and times are the viewer's** (2026-11-19, Ken; v1.14.0).
+  Apps showed stored UTC strings cut to `yyyy-mm-dd hh:mm`, or each
+  formatted dates its own way. `DateTime` / `formatDateTime` show every
+  date and time in the browser's time zone and locale; a timestamp without
+  an offset is UTC (what the backends store), a bare date stays its day.
+  `house-ui-check` reports dates formatted by hand.
 
 ## 7. Build order
 

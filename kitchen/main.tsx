@@ -9,6 +9,7 @@ import {
   AppShell,
   AuthPage,
   Banner,
+  DateTime,
   Button,
   ButtonLink,
   ConfirmButton,
@@ -808,6 +809,7 @@ function FeedbackDemo() {
       <Facts
         items={[
           ['App', 'kwicky'],
+          ['Deployed', <DateTime value="2026-11-20T03:46:35Z" />],
           ['Commit', <span className="hu-mono">a1b2c3d4e5f6</span>],
           ['Server', 'srv-a'],
           ['Last backup', null],

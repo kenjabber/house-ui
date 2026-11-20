@@ -18,3 +18,7 @@ src/components/Chart.tsx:6: colour literal rgb() in an inline style; use a seman
 src/components/Chart.tsx:7: uses palette token --color-blue-500; use a semantic token
 src/components/Chart.tsx:11: colour literal in fill=; use currentColor or a semantic token
 src/components/Chart.tsx:11: colour literal in stroke=; use currentColor or a semantic token
+src/pages/When.tsx:2: date formatted by hand; use house-ui's DateTime or formatDateTime (the viewer's time zone)
+src/pages/When.tsx:3: date formatted by hand; use house-ui's DateTime or formatDateTime (the viewer's time zone)
+src/pages/When.tsx:4: date formatted by hand; use house-ui's DateTime or formatDateTime (the viewer's time zone)
+src/pages/When.tsx:5: date formatted by hand; use house-ui's DateTime or formatDateTime (the viewer's time zone)

@@ -36,6 +36,7 @@ describe('house-ui-check', () => {
       "styles house-ui's class .hu-btn",
       'in an inline style',
       'in fill=',
+      'date formatted by hand',
     ]) {
       expect(out).toContain(kind)
     }

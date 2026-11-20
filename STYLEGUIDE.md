@@ -543,6 +543,24 @@ for screen readers without an `idPrefix`.
 </PanelTabs>
 ```
 
+### DateTime, formatDateTime
+
+Every date and time on a page is in the viewer's own time zone and
+locale (D-25). The backends store UTC; a stored timestamp without an
+offset (`2026-10-02T15:17:27`) is read as UTC, a bare date (`2026-11-19`)
+stays that day. `<DateTime value={iso} />` renders a `<time>` (hover: the
+full date with the zone's name); `format` is `datetime` (the default),
+`datetime-seconds`, `date`, `time` or `time-seconds`, and `fallback` the
+text for no value (`—`). Inside a sentence or a string, use
+`formatDateTime(value, format, fallback)`. Never show the stored string
+or cut it (`.replace("T", " ")`), and never call `toLocaleDateString` /
+`toLocaleTimeString` yourself: `house-ui-check` reports both.
+
+```tsx
+<td><DateTime value={run.created_at} /></td>
+`Last push ${formatDateTime(p.last_push.created_at)}.`
+```
+
 ### Banner, Loading
 
 `Banner` is a message across a page or card: `kind` (the five of D-11,
