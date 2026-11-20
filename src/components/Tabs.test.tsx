@@ -99,4 +99,23 @@ describe('PanelTabs', () => {
     )
     expect(screen.getByRole('tabpanel', { name: 'main' })).toHaveAttribute('aria-labelledby', screen.getByRole('tab').id)
   })
+
+  it('puts the note of a tab behind a "?" right of the tab, outside it', () => {
+    render(
+      <Tabs
+        label="Views"
+        value="a"
+        onChange={() => {}}
+        tabs={[
+          { key: 'a', label: 'Blocked domains', info: 'What is blocked.' },
+          { key: 'b', label: 'Watch' },
+        ]}
+      />,
+    )
+    const help = screen.getByRole('button', { name: 'About Blocked domains' })
+    expect(screen.getByRole('tab', { name: 'Blocked domains' })).not.toContainElement(help)
+    expect(screen.getAllByRole('tab')).toHaveLength(2)
+    fireEvent.click(help)
+    expect(screen.getByRole('note', { name: 'Blocked domains' })).toHaveTextContent('What is blocked.')
+  })
 })

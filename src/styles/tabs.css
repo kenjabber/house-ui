@@ -43,6 +43,16 @@
   .hu-tab--active .hu-tab__sub {
     color: var(--text-secondary);
   }
+  /* A tab with a note: the "?" right of the tab, on the tab's line. */
+  .hu-tab-with-info {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding-right: var(--space-2);
+  }
+  .hu-tab-with-info > .hu-tab {
+    padding-right: var(--space-1);
+  }
 
   /* PanelTabs: the strip sits on its panel, and the selected tab joins it. */
   .hu-panel-tabs {

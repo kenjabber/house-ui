@@ -1,11 +1,19 @@
 import { useId, useRef, type HTMLAttributes, type KeyboardEvent, type ReactNode } from 'react'
 import { cx } from '../cx'
+import { InfoButton } from './InfoButton'
 
 export interface Tab<K extends string = string> {
   key: K
   label: ReactNode
   /** Quieter text after the label (a server name, a count). */
   sub?: ReactNode
+  /**
+   * A note about what the tab holds, behind a "?" right of the tab (not in
+   * it: a button cannot hold a button). Its name is the label when that is
+   * text, else `infoTitle`.
+   */
+  info?: ReactNode
+  infoTitle?: string
   disabled?: boolean
 }
 
@@ -68,7 +76,7 @@ export function Tabs<K extends string = string>({
       role="tablist" aria-label={label} onKeyDown={onKeyDown}>
       {tabs.map((t) => {
         const selected = t.key === value
-        return (
+        const tab = (
           <button
             key={t.key}
             type="button"
@@ -90,6 +98,13 @@ export function Tabs<K extends string = string>({
               </>
             )}
           </button>
+        )
+        if (t.info == null) return tab
+        return (
+          <span key={t.key} className="hu-tab-with-info">
+            {tab}
+            <InfoButton title={t.infoTitle ?? (typeof t.label === 'string' ? t.label : String(t.key))}>{t.info}</InfoButton>
+          </span>
         )
       })}
     </div>

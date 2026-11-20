@@ -746,7 +746,7 @@ function TabsDemo() {
         value={tab}
         onChange={setTab}
         tabs={[
-          { key: 'users', label: 'Users' },
+          { key: 'users', label: 'Users', info: 'Everyone who can sign in, and what each may do.' },
           { key: 'groups', label: 'Groups' },
           { key: 'tokens', label: 'API tokens' },
           { key: 'later', label: 'Disabled', disabled: true },

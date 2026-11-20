@@ -513,9 +513,11 @@ beside buttons) takes `inline`: as wide as its content, or an Input's
 ### Tabs, TabPanel, PanelTabs
 
 A row of tabs, the selected one underlined: the settings modals' tabs.
-`tabs` (`key`, `label`, `sub`, `disabled`; `sub` is quieter text after the
-label, a server name or a count), `value`, `onChange`, `label` (the
-list's accessible name). Arrow keys, Home and End move between tabs. Render
+`tabs` (`key`, `label`, `sub`, `info`, `disabled`; `sub` is quieter text
+after the label, a server name or a count; `info` is a note about what the
+tab holds, behind a "?" right of the tab — the tab's own InfoButton, so a
+view's note sits on its tab and not on a row of its own), `value`,
+`onChange`, `label` (the list's accessible name). Arrow keys, Home and End move between tabs. Render
 the selected tab's content yourself; with `idPrefix`, wrap it in
 `<TabPanel idPrefix tabKey>` and the two are wired for screen readers.
 
