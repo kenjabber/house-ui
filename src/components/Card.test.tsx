@@ -52,16 +52,25 @@ describe('card.css fill rules', () => {
     return css.slice(css.indexOf('{', at), css.indexOf('}', at))
   }
 
-  it('the page lets a fill card, a .hu-fill and a TableWrap fill grow', () => {
-    const r = rule('.hu-page--fill > .hu-table-wrap--fill,\n  .hu-page--fill > .hu-card--fill,\n  .hu-page--fill > .hu-fill')
+  it('the page lets a fill card and a .hu-fill take the rest', () => {
+    const r = rule('.hu-page--fill > .hu-card--fill,\n  .hu-page--fill > .hu-fill {')
     expect(r).toMatch(/flex: 1 1 auto/)
     expect(r).toMatch(/min-height: 0/)
   })
 
-  it('a fill card is a flex column whose fill child grows and the rest keep their height', () => {
+  it('a TableWrap fill, and a fill card around one, hug their rows up to the rest', () => {
+    const r = rule('.hu-page--fill > .hu-table-wrap--fill,\n  .hu-page--fill > .hu-card--fill:has(> .hu-table-wrap--fill) {')
+    expect(r).toMatch(/flex: 0 1 auto/)
+    expect(r).toMatch(/min-height: 0/)
+    const c = rule('.hu-card--fill > .hu-table-wrap--fill {')
+    expect(c).toMatch(/flex: 0 1 auto/)
+    expect(c).toMatch(/min-height: 0/)
+  })
+
+  it('a fill card is a flex column whose .hu-fill grows and the rest keep their height', () => {
     expect(rule('.hu-card--fill {')).toMatch(/flex-direction: column/)
     expect(rule('.hu-card--fill > * {')).toMatch(/flex-shrink: 0/)
-    const r = rule('.hu-card--fill > .hu-table-wrap--fill,\n  .hu-card--fill > .hu-fill {')
+    const r = rule('.hu-card--fill > .hu-fill {')
     expect(r).toMatch(/flex: 1 1 auto/)
     expect(r).toMatch(/min-height: 0/)
     expect(r).toMatch(/min-width: 0/)

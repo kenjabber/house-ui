@@ -57,4 +57,13 @@ describe('Page fill and TableWrap fill', () => {
     expect(container.querySelector('.hu-table-wrap')).toHaveClass('hu-table-wrap--fill')
     expect(container.querySelector('table')).toHaveClass('hu-table--sticky')
   })
+
+  it('passes other attributes to the page div', () => {
+    render(
+      <Page fill role="region" aria-label="Ports">
+        <TableWrap fill />
+      </Page>,
+    )
+    expect(screen.getByRole('region', { name: 'Ports' })).toHaveClass('hu-page', 'hu-page--fill')
+  })
 })

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import { cx } from '../cx'
 
 export interface PageHeadProps {
@@ -45,17 +45,24 @@ export function PageHead({ title, subtitle, actions, hideTitle, className }: Pag
   )
 }
 
-export interface PageProps {
+export interface PageProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Take the main area's full height so one child can grow and scroll by
-   * itself (a `<TableWrap fill>`); the other children keep their height.
+   * itself (a `<TableWrap fill>`, as tall as its rows up to the rest of the
+   * page); the other children keep their height.
    */
   fill?: boolean
-  className?: string
   children?: ReactNode
 }
 
-/** A centred column of at most --page-max-width with cards spaced evenly. */
-export function Page({ fill, className, children }: PageProps) {
-  return <div className={cx('hu-page', fill && 'hu-page--fill', className)}>{children}</div>
+/**
+ * A centred column of at most --page-max-width with cards spaced evenly.
+ * Other attributes go to the div (`role="region"` with `aria-label`).
+ */
+export function Page({ fill, className, children, ...rest }: PageProps) {
+  return (
+    <div className={cx('hu-page', fill && 'hu-page--fill', className)} {...rest}>
+      {children}
+    </div>
+  )
 }

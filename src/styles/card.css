@@ -8,8 +8,10 @@
   }
   /* A page as tall as the main area (height 100% of .hu-main__content, a
      flex item of a definite-height column, so it resolves): its children
-     keep their height, and a fill child (TableWrap fill) takes the rest and
-     scrolls by itself, so the main area does not. */
+     keep their height, and a fill child takes the rest and scrolls by
+     itself, so the main area does not. A TableWrap fill (and a Card fill
+     around one) is as tall as its rows and grows only up to the rest; a
+     .hu-fill or a Card fill with a .hu-fill always takes all of it. */
   .hu-page--fill {
     height: 100%;
     min-height: 0;
@@ -17,10 +19,14 @@
   .hu-page--fill > * {
     flex-shrink: 0;
   }
-  .hu-page--fill > .hu-table-wrap--fill,
   .hu-page--fill > .hu-card--fill,
   .hu-page--fill > .hu-fill {
     flex: 1 1 auto;
+    min-height: 0;
+  }
+  .hu-page--fill > .hu-table-wrap--fill,
+  .hu-page--fill > .hu-card--fill:has(> .hu-table-wrap--fill) {
+    flex: 0 1 auto;
     min-height: 0;
   }
 
@@ -80,9 +86,13 @@
   .hu-card--fill > * {
     flex-shrink: 0;
   }
-  .hu-card--fill > .hu-table-wrap--fill,
   .hu-card--fill > .hu-fill {
     flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+  }
+  .hu-card--fill > .hu-table-wrap--fill {
+    flex: 0 1 auto;
     min-height: 0;
     min-width: 0;
   }

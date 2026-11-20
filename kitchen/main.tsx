@@ -183,6 +183,7 @@ const RUNS = Array.from({ length: 60 }, (_, i) => {
 
 /** A list page: no visible title (the header says it), the table fills the page and scrolls by itself. */
 function ListPage({ section }: { section: string }) {
+  const [rowCount, setRowCount] = useState(RUNS.length)
   return (
     <Page fill>
       <PageHead
@@ -194,18 +195,22 @@ function ListPage({ section }: { section: string }) {
               <option value="">all statuses</option>
               <option>Running</option>
             </Select>
+            <Select inline aria-label="rows" value={rowCount} onChange={(e) => setRowCount(Number(e.target.value))}>
+              <option value={RUNS.length}>{RUNS.length} rows</option>
+              <option value={5}>5 rows</option>
+            </Select>
             <Button variant="primary">Add</Button>
           </>
         }
       />
-      <Banner kind="info">Page fill: the table scrolls inside its wrap, the header row stays, the main area does not scroll.</Banner>
+      <Banner kind="info">Page fill: a short table stops after its last row; a long one reaches the bottom and scrolls inside its wrap, the header row stays, the main area does not scroll.</Banner>
       <TableWrap fill>
         <Table stickyHead>
           <thead>
             <tr><th>Run</th><th>App</th><th>Server</th><th>Status</th><th className="hu-num">Took</th></tr>
           </thead>
           <tbody>
-            {RUNS.map((r) => (
+            {RUNS.slice(0, rowCount).map((r) => (
               <tr key={r.id}>
                 <td className="hu-num">{r.id}</td>
                 <td>{r.app}</td>

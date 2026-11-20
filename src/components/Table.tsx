@@ -17,8 +17,9 @@ export function Table({ stickyHead, className, ...rest }: TableProps) {
 
 export interface TableWrapProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * Fill the rest of a `<Page fill>` and scroll both ways by itself; use with
-   * `<Table stickyHead>` so the header stays in view.
+   * In a `<Page fill>` (or a `<Card fill>`): as tall as the rows, growing with
+   * them up to the rest of the page, then scroll both ways by itself; use
+   * with `<Table stickyHead>` so the header stays in view.
    */
   fill?: boolean
 }

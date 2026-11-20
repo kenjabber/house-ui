@@ -245,8 +245,11 @@ visible title.
 page puts its table straight in the page (no Card around it). `<Page fill>`
 is as tall as the main area; its children keep their natural height (a
 PageHead, a Banner is never squashed), and a `<TableWrap fill>` straight in it
-takes the rest and scrolls both ways by itself, so the main area does not
-scroll. Use it with `<Table stickyHead>` so the header row stays in view.
+is as tall as its rows: a short list stops after its last row, more rows grow
+it, and once it reaches the bottom of the page it stops growing and scrolls
+both ways by itself, so the main area does not scroll. Use it with
+`<Table stickyHead>` so the header row stays in view. `Page` passes other
+attributes to its div (`role="region" aria-label="Ports"` to name it).
 
 ```tsx
 <Page fill>
@@ -264,7 +267,9 @@ main area whose content scrolls by itself (a list beside a form), put a
 height and is a flex column: its head, its `actions` row and its other
 children (a Banner) keep their natural height, and one child takes the rest:
 a `<TableWrap fill>`, or any element with `className="hu-fill"` (`flex: 1 1
-auto; min-height: 0; min-width: 0`). A `.hu-fill` lays itself out (the app's
+auto; min-height: 0; min-width: 0`). A card whose fill child is a
+`<TableWrap fill>` hugs its rows the same way (a short list ends the card
+after its last row); one with a `.hu-fill` always reaches the bottom. A `.hu-fill` lays itself out (the app's
 own grid), and each box in it that should scroll carries `overflow: auto;
 min-height: 0`. For a grid, give it one row as tall as the box,
 `grid-template-rows: minmax(0, 1fr)`, or the row grows with its content.
@@ -359,8 +364,8 @@ wrap them in `<div className="hu-chip-row">`.
 ### Table, TableWrap, TableEmpty
 
 `TableWrap` is the bordered box (scrolls sideways when wide; `fill` in a
-`Page fill` takes the page's remaining height and scrolls both ways, see
-Page above); `Table` the table, with `stickyHead` to keep the header in view. Write `thead`/`tbody`
+`Page fill` grows with its rows up to the page's remaining height and then
+scrolls both ways, see Page above); `Table` the table, with `stickyHead` to keep the header in view. Write `thead`/`tbody`
 yourself. Cell classes: `hu-num` (right-aligned figures), `hu-nowrap`. Row
 classes: `hu-row--clickable`, `hu-row--selected`, `hu-row--detail` (below).
 `TableEmpty colSpan={n}` is the "nothing here" row.

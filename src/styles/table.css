@@ -5,10 +5,12 @@
     border-radius: var(--radius-md);
     background: var(--surface-raised);
   }
-  /* In a Page fill: takes the rest of the page's height and scrolls both
-     ways (with Table stickyHead the header stays in view). */
+  /* In a Page fill (or a Card fill): as tall as its rows, growing with them
+     until it reaches the bottom of the page, then scrolls both ways (with
+     Table stickyHead the header stays in view). A short list stops after its
+     last row; it never stretches an empty frame to the bottom. */
   .hu-table-wrap--fill {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-height: 0;
     overflow: auto;
   }
